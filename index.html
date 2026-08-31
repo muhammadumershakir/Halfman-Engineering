@@ -1,1281 +1,445 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Halfman Engineering | Engineering & Manufacturing Services</title>
-
-  <meta name="description" content="Halfman Engineering provides CNC machining, CNC programming, die designing, die making, spot welding and checking fixture services for automotive and industrial applications.">
-
-  <meta name="keywords" content="Halfman Engineering, CNC machining, CNC programming, die designing, die making, spot welding, checking fixtures, engineering manufacturing Pakistan">
-
-  <meta name="author" content="Halfman Engineering">
-
-  <link rel="canonical" href="https://halfman-engineering.com/">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #17202a;
-      background: #ffffff;
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
-    }
-
-    /* ================= HEADER ================= */
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .logo span {
-      display: block;
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: #6b7280;
-      font-weight: 500;
-    }
-
-    nav {
-      display: flex;
-      gap: 26px;
-      align-items: center;
-    }
-
-    nav a {
-      font-size: 14px;
-      font-weight: 600;
-      color: #374151;
-    }
-
-    nav a:hover {
-      color: #111827;
-    }
-
-    .nav-btn {
-      background: #111827;
-      color: #ffffff;
-      padding: 11px 18px;
-      border-radius: 4px;
-    }
-
-    /* ================= HERO ================= */
-
-    .hero {
-      padding: 100px 0;
-      background: #f4f5f6;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #6b7280;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.05;
-      margin-bottom: 25px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      color: #5b6470;
-      font-size: 18px;
-      margin-bottom: 32px;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 4px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .btn-dark {
-      background: #111827;
-      color: #fff;
-    }
-
-    .btn-outline {
-      border: 1px solid #111827;
-      color: #111827;
-    }
-
-    .hero-image {
-      min-height: 430px;
-      background: #dfe2e5;
-      overflow: hidden;
-    }
-
-    .hero-image img {
-      height: 100%;
-      min-height: 430px;
-      object-fit: cover;
-    }
-
-    /* ================= SECTIONS ================= */
-
-    .section {
-      padding: 90px 0;
-    }
-
-    .section-fog {
-      background: #f5f6f7;
-    }
-
-    .section-header {
-      margin-bottom: 48px;
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    .section-header h2 {
-      font-size: clamp(32px, 4vw, 48px);
-      line-height: 1.15;
-      margin-bottom: 15px;
-    }
-
-    .lede {
-      color: #68717d;
-      max-width: 720px;
-      margin: auto;
-    }
-
-    /* ================= SERVICES ================= */
-
-    .grid {
-      display: grid;
-      gap: 24px;
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #e3e6e8;
-    }
-
-    .service-card {
-      overflow: hidden;
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,.08);
-    }
-
-    /* ================= SERVICE IMAGE SLOT ================= */
-
-    .service-image {
-      height: 220px;
-      background: #e7e9eb;
-      overflow: hidden;
-    }
-
-    .service-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      margin: 25px 25px 18px;
-      color: #111827;
-    }
-
-    .card-icon svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .service-card h3 {
-      padding: 0 25px;
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    .service-card p {
-      padding: 0 25px;
-      color: #69727e;
-      min-height: 60px;
-    }
-
-    .link-arrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 22px 25px 25px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .link-arrow svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    /* ================= ABOUT ================= */
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .about-image {
-      min-height: 420px;
-      background: #e5e7e9;
-    }
-
-    .about-image img {
-      height: 420px;
-      object-fit: cover;
-    }
-
-    .about h2 {
-      font-size: 44px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .about p {
-      color: #626b75;
-      margin-bottom: 18px;
-    }
-
-    /* ================= INDUSTRY EXPERIENCE ================= */
-
-    .experience {
-      background: #111827;
-      color: #ffffff;
-    }
-
-    .experience .eyebrow {
-      color: #aeb6c0;
-    }
-
-    .experience h2 {
-      font-size: 44px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    .experience-intro {
-      color: #c5cad1;
-      max-width: 700px;
-      margin-bottom: 45px;
-    }
-
-    .values {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .value-item {
-      border: 1px solid #374151;
-      padding: 28px;
-      display: flex;
-      gap: 20px;
-      background: #161e2b;
-    }
-
-    .value-item svg {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-    }
-
-    .value-item h4 {
-      font-size: 19px;
-      margin-bottom: 7px;
-    }
-
-    .value-item p {
-      color: #b9c0c9;
-      font-size: 14px;
-    }
-
-    /* ================= CTA ================= */
-
-    .cta {
-      padding: 90px 0;
-      background: #e9ebed;
-      text-align: center;
-    }
-
-    .cta h2 {
-      font-size: clamp(34px, 5vw, 52px);
-      margin-bottom: 18px;
-    }
-
-    .cta p {
-      color: #626b75;
-      max-width: 650px;
-      margin: 0 auto 30px;
-    }
-
-    /* ================= FOOTER ================= */
-
-    footer {
-      background: #0c1118;
-      color: #ffffff;
-      padding: 55px 0 25px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.3fr 1fr 1fr;
-      gap: 50px;
-      margin-bottom: 40px;
-    }
-
-    footer h3 {
-      margin-bottom: 15px;
-    }
-
-    footer h4 {
-      margin-bottom: 15px;
-    }
-
-    footer p,
-    footer a {
-      color: #aeb6c0;
-      font-size: 14px;
-    }
-
-    footer a:hover {
-      color: #ffffff;
-    }
-
-    .footer-links {
-      display: grid;
-      gap: 8px;
-    }
-
-    .copyright {
-      border-top: 1px solid #27303c;
-      padding-top: 20px;
-      color: #89929e;
-      font-size: 13px;
-    }
-
-    /* ================= MOBILE ================= */
-
-    @media (max-width: 900px) {
-
-      .hero-grid,
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .grid-3 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .values {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      nav {
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 650px) {
-
-      .nav {
-        min-height: 70px;
-      }
-
-      nav a:not(.nav-btn) {
-        display: none;
-      }
-
-      .hero {
-        padding: 65px 0;
-      }
-
-      .section {
-        padding: 65px 0;
-      }
-
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-image,
-      .hero-image img {
-        min-height: 300px;
-      }
-
-      .about-image,
-      .about-image img {
-        min-height: 300px;
-        height: 300px;
-      }
-
-      .experience h2,
-      .about h2 {
-        font-size: 35px;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halfman Engineering | Automotive Parts Manufacturer in Pakistan</title>
+<meta name="description" content="Halfman Engineering is a Karachi-based automotive parts manufacturer and precision engineering company with 40+ years of experience and a 30+ year vendor relationship with Pak Suzuki. CNC machining, die making, fabrication and tooling for the automotive industry.">
+<!-- Replace with your live production domain once deployed -->
+<link rel="canonical" href="https://www.halfmanengineering.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Halfman Engineering">
+<meta property="og:title" content="Halfman Engineering | Automotive Parts Manufacturer in Pakistan">
+<meta property="og:description" content="Precision CNC machining, die making, fabrication and tooling for the automotive industry. 40+ years of engineering experience, 30+ years serving Pak Suzuki.">
+<meta property="og:url" content="https://www.halfmanengineering.com/">
+<!-- Replace with a real 1200x630 brand/og image -->
+<meta property="og:image" content="https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=1200&h=630&q=80">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<!-- Favicon: replace with real Halfman Engineering mark -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%230a0e15'/%3E%3Ctext x='50%25' y='58%25' font-family='Arial' font-size='18' fill='%235B82FF' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Halfman Engineering",
+  "description": "Automotive parts manufacturer and precision engineering company based in Karachi, Pakistan, providing CNC machining, CNC programming, die designing, die making, spot welding and checking fixtures.",
+  "url": "https://www.halfmanengineering.com/",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Karachi",
+    "addressCountry": "PK"
+  },
+  "areaServed": "Worldwide",
+  "knowsAbout": ["CNC Machining", "CNC Programming", "Die Designing", "Die Making", "Spot Welding", "Checking Fixtures", "Automotive Parts Manufacturing"]
+}
+</script>
 </head>
-
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <!-- ================= HEADER ================= -->
-
-<header>
-  <div class="container nav">
-
-    <a href="index.html" class="logo">
-      HALFMAN
-      <span>ENGINEERING</span>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand" aria-label="Halfman Engineering — Home">
+      <span class="brand-mark" aria-hidden="true">H</span>
+      <span class="brand-text"><span class="name">HALFMAN</span><span class="tag">Engineering</span></span>
     </a>
-
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact" class="nav-btn">Contact</a>
+    <nav class="nav-primary" aria-label="Primary">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="products.html">Products</a>
+      <a href="awards.html">Awards</a>
+      <a href="contact.html">Contact</a>
     </nav>
-
+    <div class="header-actions">
+      <a href="contact.html" class="btn btn-primary btn-sm">Request a Quote</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+      </button>
+    </div>
   </div>
 </header>
 
+<!-- ================= MOBILE NAV PANEL ================= -->
+<nav class="nav-panel" id="mobile-nav" aria-label="Mobile">
+  <button class="nav-panel-close" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <a href="index.html" aria-current="page">Home</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="products.html">Products</a>
+  <a href="awards.html">Awards</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn btn-primary btn-block">Request a Quote</a>
+  <div class="nav-panel-meta">Karachi, Pakistan<br>Automotive Parts Manufacturer &amp; Engineering Fabrication</div>
+</nav>
 
-<!-- ================= HERO ================= -->
+<main id="main">
 
-<main>
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-media">
+      <!-- Replace with a real Halfman Engineering factory/CNC photograph -->
+      <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=2000&q=80"
+           data-fallback="CNC Machining Floor — Replace with Halfman Engineering photograph"
+           alt="CNC machining floor with precision metal components being manufactured" loading="eager">
+    </div>
+    <span class="hero-corner tl" aria-hidden="true"></span>
+    <span class="hero-corner br" aria-hidden="true"></span>
+    <div class="container hero-content">
+      <span class="hero-tag"><span class="dot"></span>Karachi, Pakistan · Est. Automotive Manufacturing Partner</span>
+      <h1>Precision Engineering. Built for the Automotive Industry.</h1>
+      <p class="lede">40+ years of engineering experience and more than 30 years serving Pak Suzuki, delivering precision manufacturing, tooling and fabrication solutions for the automotive industry.</p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn btn-primary">
+          Request a Quote
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="services.html" class="btn btn-outline">Explore Our Capabilities</a>
+      </div>
+    </div>
+  </section>
 
-<section class="hero" id="home">
+  <!-- ================= TRUST / STAT STRIP ================= -->
+  <section class="stat-strip" aria-label="Company statistics">
+    <div class="container grid grid-4">
+      <div class="stat">
+        <div class="num" data-count-to="40"><span class="plus">40+</span></div>
+        <div class="label">Years Engineering Experience</div>
+      </div>
+      <div class="stat">
+        <div class="num" data-count-to="30"><span class="plus">30+</span></div>
+        <div class="label">Years Serving Pak Suzuki</div>
+      </div>
+      <div class="stat">
+        <div class="num" data-count-to="6"><span class="plus">6+</span></div>
+        <div class="label">Major Automotive Industry Relationships</div>
+      </div>
+      <div class="stat">
+        <div class="num">Export</div>
+        <div class="label">Ready — International Manufacturing Focus</div>
+      </div>
+    </div>
+  </section>
 
-  <div class="container hero-grid">
-
-    <div>
-
-      <span class="eyebrow">
-        Engineering & Manufacturing
-      </span>
-
-      <h1>
-        Precision Engineering.
-        Reliable Manufacturing.
-      </h1>
-
-      <p>
-        Halfman Engineering delivers engineering and manufacturing
-        solutions for automotive and industrial applications, with
-        a focus on precision, reliability and quality.
+  <!-- ================= TRUSTED BY ================= -->
+  <section class="logo-strip section-dark grid-overlay">
+    <div class="container">
+      <div class="logo-strip-head" data-reveal>
+        <h2 style="font-size:1.4rem;margin:0;">Trusted By &amp; Industry Experience</h2>
+        <p>Automotive manufacturers we have worked with</p>
+      </div>
+      <div class="logo-row" data-reveal-group>
+        <div class="logo-cell">PAK SUZUKI</div>
+        <div class="logo-cell">KIA / LUCKY MOTORS</div>
+        <div class="logo-cell">HINO</div>
+        <div class="logo-cell">GHANDHARA</div>
+        <div class="logo-cell">HONDA</div>
+      </div>
+      <div class="logo-row" data-reveal-group style="margin-top:1px;">
+        <div class="logo-cell">FAW</div>
+      </div>
+      <p class="logo-note" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.2 6.6H21l-5.4 4 2 6.6L12 15l-5.6 4.2 2-6.6L3 8.6h6.8z"/></svg>
+        Halfman Engineering has been a vendor for Pak Suzuki for over 30 years. Other companies listed reflect broader automotive industry experience and relationships, not formal vendor status.
       </p>
-
-      <div class="buttons">
-
-        <a href="#services" class="btn btn-dark">
-          Explore Services
-        </a>
-
-        <a href="#contact" class="btn btn-outline">
-          Contact Us
-        </a>
-
-      </div>
-
     </div>
+  </section>
 
-
-    <!-- HERO IMAGE SLOT -->
-    <div class="hero-image">
-
-      <!--
-        OPTIONAL HERO IMAGE
-
-        Add your own image later:
-        images/hero.jpg
-      -->
-
-      <img
-        src="images/hero.jpg"
-        alt="Halfman Engineering manufacturing facility"
-        loading="eager"
-      >
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= ABOUT ================= -->
-
-<section class="section about" id="about">
-
-  <div class="container about-grid">
-
-    <!-- ABOUT IMAGE SLOT -->
-
-    <div class="about-image">
-
-      <!--
-        OPTIONAL ABOUT IMAGE
-
-        Add your own image later:
-        images/about.jpg
-      -->
-
-      <img
-        src="images/about.jpg"
-        alt="Halfman Engineering"
-        loading="lazy"
-      >
-
-    </div>
-
-
-    <div>
-
-      <span class="eyebrow">
-        About Halfman Engineering
-      </span>
-
-      <h2>
-        Engineering capability built around precision.
-      </h2>
-
-      <p>
-        Halfman Engineering provides engineering and manufacturing
-        services for automotive and industrial requirements.
-      </p>
-
-      <p>
-        Our capabilities cover machining, programming, die design,
-        die making, spot welding and checking fixtures.
-      </p>
-
-      <p>
-        We focus on accurate work, practical engineering solutions
-        and dependable manufacturing support.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= SERVICES ================= -->
-
-<section class="section section-fog" id="services">
-
-  <div class="container">
-
-    <div class="section-header center">
-
-      <span class="eyebrow">
-        Capabilities
-      </span>
-
-      <h2>
-        Engineering &amp; Manufacturing Services
-      </h2>
-
-      <p class="lede">
-        Integrated services covering the full journey from design
-        intent to finished, inspected components.
-      </p>
-
-    </div>
-
-
-    <div class="grid grid-3">
-
-
-      <!-- ================= CNC MACHINING ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/cnc-machining.jpg
-          -->
-
-          <img
-            src="images/cnc-machining.jpg"
-            alt="CNC Machining at Halfman Engineering"
-            loading="lazy"
-          >
-
+  <!-- ================= KEY BENEFITS ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header center" data-reveal>
+        <span class="eyebrow">Why Halfman Engineering</span>
+        <h2>Engineering Capability You Can Build On</h2>
+        <p class="lede mx-auto">A single manufacturing partner for machining, tooling, fabrication and inspection — shaped by four decades in the automotive industry.</p>
+      </div>
+      <div class="grid grid-4" data-reveal-group>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 00-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 00-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.6 7.6 0 000 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 002.6 1.5l.5 2.6h4l.5-2.6a7.6 7.6 0 002.6-1.5l2.3.8 2-3.4z"/></svg></div>
+          <h3>Precision Manufacturing</h3>
+          <p>CNC machining and programming focused on accurate, repeatable production.</p>
         </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <circle cx="12" cy="12" r="3.2"/>
-
-            <path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 00-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 00-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.6 7.6 0 000 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 002.6 1.5l.5 2.6h4l.5-2.6a7.6 7.6 0 002.6-1.5l2.3.8 2-3.4z"/>
-
-          </svg>
-
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Engineering Expertise</h3>
+          <p>More than four decades of practical engineering and manufacturing experience.</p>
         </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="14" height="10" rx="1.5"/><path d="M17 10l4-2v8l-4-2"/></svg></div>
+          <h3>Automotive Industry Experience</h3>
+          <p>Long-term experience working within demanding automotive manufacturing environments.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg></div>
+          <h3>Reliable Production</h3>
+          <p>Tooling, fixtures, welding and component manufacturing under one engineering partner.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <h3>
-          CNC Machining
-        </h3>
+  <!-- ================= SERVICES PREVIEW ================= -->
+  <section class="section section-fog">
+    <div class="container">
+      <div class="section-header center" data-reveal>
+        <span class="eyebrow">Capabilities</span>
+        <h2>Engineering &amp; Manufacturing Services</h2>
+        <p class="lede mx-auto">Integrated services covering the full journey from design intent to finished, inspected components.</p>
+      </div>
+      <div class="grid grid-3" data-reveal-group>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 00-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 00-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.6 7.6 0 000 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 002.6 1.5l.5 2.6h4l.5-2.6a7.6 7.6 0 002.6-1.5l2.3.8 2-3.4z"/></svg></div>
+          <h3>CNC Machining</h3>
+          <p>Precision machining for automotive and industrial components.</p>
+          <a href="services.html#cnc-machining" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4l-5 8 5 8M16 4l5 8-5 8M13 3l-2 18"/></svg></div>
+          <h3>CNC Programming</h3>
+          <p>Programming support for accurate and repeatable machining operations.</p>
+          <a href="services.html#cnc-programming" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V7l8-4 8 4v12"/><path d="M4 19h16M9 19v-6h6v6"/></svg></div>
+          <h3>Die Designing</h3>
+          <p>Engineering and designing dies for manufacturing requirements.</p>
+          <a href="services.html#die-designing" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.5 3.5l6 6L9 21l-7 1.5L3.5 15.5z"/><path d="M13 6l5 5"/></svg></div>
+          <h3>Die Making</h3>
+          <p>Manufacturing and fabrication of production dies.</p>
+          <a href="services.html#die-making" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/><path d="M5 17l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg></div>
+          <h3>Spot Welding</h3>
+          <p>Spot welding solutions for automotive component fabrication.</p>
+          <a href="services.html#spot-welding" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M8 4v16M3 9h5M3 15h5"/></svg></div>
+          <h3>Checking Fixtures</h3>
+          <p>Fixtures designed to support accurate inspection and dimensional checking.</p>
+          <a href="services.html#checking-fixtures" class="link-arrow">Learn More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:44px;" data-reveal>
+        <a href="services.html" class="btn btn-outline-dark">View All Services</a>
+      </div>
+    </div>
+  </section>
 
-        <p>
-          Precision machining for automotive and industrial components.
-        </p>
+  <!-- ================= MANUFACTURING CAPABILITIES / WORKFLOW ================= -->
+  <section class="section section-dark grid-overlay">
+    <div class="container">
+      <div class="section-header center" data-reveal>
+        <span class="eyebrow">Process</span>
+        <h2>From Design Intent to Finished Component</h2>
+        <p class="lede mx-auto">A structured manufacturing workflow built for consistency across every production run.</p>
+      </div>
+      <div class="workflow" data-reveal-group>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19V7l8-4 8 4v12"/><path d="M4 19h16M9 19v-6h6v6"/></svg></div>
+          <div class="wf-index">01</div><div class="wf-label">Design</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.5 3.5l6 6L9 21l-7 1.5L3.5 15.5z"/></svg></div>
+          <div class="wf-index">02</div><div class="wf-label">Tooling</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 00-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 00-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.6 7.6 0 000 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 002.6 1.5l.5 2.6h4l.5-2.6a7.6 7.6 0 002.6-1.5l2.3.8 2-3.4z"/></svg></div>
+          <div class="wf-index">03</div><div class="wf-label">Machining</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/></svg></div>
+          <div class="wf-index">04</div><div class="wf-label">Fabrication</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <div class="wf-index">05</div><div class="wf-label">Inspection</div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 13h13l4 4v-8l-4-4H3z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></div>
+          <div class="wf-index">06</div><div class="wf-label">Production</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <a href="services.html#cnc-machining" class="link-arrow">
-          Learn More
+  <!-- ================= PRODUCTS PREVIEW ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header center" data-reveal>
+        <span class="eyebrow">Portfolio</span>
+        <h2>What We Manufacture</h2>
+        <p class="lede mx-auto">A cross-section of the components, tooling and fixtures produced for automotive manufacturing partners.</p>
+      </div>
+      <div class="grid grid-3" data-reveal-group>
+        <article class="product-card">
+          <div class="product-media">
+            <span class="product-cat">Automotive Parts</span>
+            <!-- Replace with actual Halfman Engineering product image -->
+            <img src="https://images.unsplash.com/photo-1518987048-93e29699e79a?auto=format&fit=crop&w=900&q=80" data-fallback="Automotive Components — add product photo" alt="Automotive component manufactured for a vehicle assembly line" loading="lazy">
+          </div>
+          <div class="product-info"><h3>Automotive Components</h3><p>Precision-manufactured parts supplied for automotive production lines.</p></div>
+        </article>
+        <article class="product-card">
+          <div class="product-media">
+            <span class="product-cat">CNC Components</span>
+            <!-- Replace with actual Halfman Engineering product image -->
+            <img src="https://images.unsplash.com/photo-1565608438257-fac3c27beb36?auto=format&fit=crop&w=900&q=80" data-fallback="Precision Machined Parts — add product photo" alt="Precision machined metal part produced on a CNC machine" loading="lazy">
+          </div>
+          <div class="product-info"><h3>Precision Machined Parts</h3><p>CNC-machined components manufactured to accurate, repeatable tolerances.</p></div>
+        </article>
+        <article class="product-card">
+          <div class="product-media">
+            <span class="product-cat">Fabrication</span>
+            <!-- Replace with actual Halfman Engineering product image -->
+            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=900&q=80" data-fallback="Pressed & Fabricated Components — add product photo" alt="Sheet metal component being fabricated in a workshop" loading="lazy">
+          </div>
+          <div class="product-info"><h3>Pressed &amp; Fabricated Components</h3><p>Formed and fabricated parts built for structural and functional applications.</p></div>
+        </article>
+      </div>
+      <div class="text-center" style="margin-top:44px;" data-reveal>
+        <a href="products.html" class="btn btn-outline-dark">View Our Products</a>
+      </div>
+    </div>
+  </section>
 
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
+  <!-- ================= ABOUT PREVIEW ================= -->
+  <section class="section section-fog">
+    <div class="container split">
+      <div data-reveal>
+        <!-- Replace with actual Halfman Engineering facility/team photograph -->
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80" data-fallback="Halfman Engineering Facility — add photograph" alt="Engineer reviewing precision manufacturing work" loading="lazy" style="border-radius:8px;aspect-ratio:4/3;object-fit:cover;">
+      </div>
+      <div data-reveal>
+        <span class="eyebrow">About Halfman Engineering</span>
+        <h2>Four Decades of Engineering Experience</h2>
+        <p class="lede" style="margin-top:20px;">Halfman Engineering combines practical engineering knowledge, manufacturing capability and automotive industry experience — built over 40+ years of engineering work and 30+ years as a vendor for Pak Suzuki.</p>
+        <p style="margin-top:16px;">From CNC machining and programming to die design, die making, spot welding and checking fixtures, our engineering team supports the full lifecycle of automotive component production.</p>
+        <a href="about.html" class="link-arrow" style="margin-top:28px;display:inline-flex;">Discover Halfman Engineering <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
 
-            <path d="M5 12h14M13 6l6 6-6 6"/>
+  <!-- ================= INDUSTRY EXPERIENCE (replaces fake testimonials) ================= -->
+  <section class="section section-dark grid-overlay">
+    <div class="container split">
+      <div data-reveal>
+        <span class="eyebrow">Industry Experience</span>
+        <h2>Built on Long-Term Manufacturing Relationships</h2>
+        <p class="lede" style="margin-top:18px;">Rather than one-off projects, Halfman Engineering's experience is grounded in sustained, long-term relationships within the automotive manufacturing sector.</p>
+      </div>
+      <div class="value-list" data-reveal-group>
+        <div class="value-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div><h4>Long-Term Automotive Relationships</h4><p>Decades of engagement with automotive manufacturers, anchored by a 30+ year vendor relationship with Pak Suzuki.</p></div>
+        </div>
+        <div class="value-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 000-3l2-1.4-2-3.4-2.3.8a7.6 7.6 0 00-2.6-1.5L14 2.5h-4l-.5 2.5a7.6 7.6 0 00-2.6 1.5l-2.3-.8-2 3.4 2 1.4a7.6 7.6 0 000 3l-2 1.4 2 3.4 2.3-.8a7.6 7.6 0 002.6 1.5l.5 2.6h4l.5-2.6a7.6 7.6 0 002.6-1.5l2.3.8 2-3.4z"/></svg>
+          <div><h4>Precision Manufacturing</h4><p>CNC machining and programming disciplines applied consistently across production runs.</p></div>
+        </div>
+        <div class="value-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div><h4>Engineering Reliability</h4><p>Four decades of practical engineering judgment applied to real production challenges.</p></div>
+        </div>
+        <div class="value-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M8 9h8M8 13h5"/></svg>
+          <div><h4>Quality-Focused Processes</h4><p>Checking fixtures and inspection practices built into the manufacturing workflow.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-          </svg>
-
+  <!-- ================= FINAL CTA ================= -->
+  <section class="section cta-band">
+    <div class="container" data-reveal>
+      <span class="eyebrow" style="justify-content:center;">Start a Conversation</span>
+      <h2>Looking for a Reliable Automotive Manufacturing Partner?</h2>
+      <p class="lede">Talk to Halfman Engineering about your next component, tooling, machining or fabrication requirement.</p>
+      <div class="hero-actions">
+        <a href="contact.html" class="btn btn-primary">Request a Quote
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-
       </div>
-
-
-      <!-- ================= CNC PROGRAMMING ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/cnc-programming.jpg
-          -->
-
-          <img
-            src="images/cnc-programming.jpg"
-            alt="CNC Programming at Halfman Engineering"
-            loading="lazy"
-          >
-
-        </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <path d="M8 4l-5 8 5 8"/>
-            <path d="M16 4l5 8-5 8"/>
-            <path d="M13 3l-2 18"/>
-
-          </svg>
-
-        </div>
-
-        <h3>
-          CNC Programming
-        </h3>
-
-        <p>
-          Programming support for accurate and repeatable
-          machining operations.
-        </p>
-
-        <a href="services.html#cnc-programming" class="link-arrow">
-          Learn More
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-
-          </svg>
-
-        </a>
-
-      </div>
-
-
-      <!-- ================= DIE DESIGNING ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/die-designing.jpg
-          -->
-
-          <img
-            src="images/die-designing.jpg"
-            alt="Die Designing at Halfman Engineering"
-            loading="lazy"
-          >
-
-        </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <path d="M4 19V7l8-4 8 4v12"/>
-            <path d="M4 19h16"/>
-            <path d="M9 19v-6h6v6"/>
-
-          </svg>
-
-        </div>
-
-        <h3>
-          Die Designing
-        </h3>
-
-        <p>
-          Engineering and designing dies for manufacturing
-          requirements.
-        </p>
-
-        <a href="services.html#die-designing" class="link-arrow">
-          Learn More
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-
-          </svg>
-
-        </a>
-
-      </div>
-
-
-      <!-- ================= DIE MAKING ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/die-making.jpg
-          -->
-
-          <img
-            src="images/die-making.jpg"
-            alt="Die Making at Halfman Engineering"
-            loading="lazy"
-          >
-
-        </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <path d="M14.5 3.5l6 6L9 21l-7 1.5L3.5 15.5z"/>
-            <path d="M13 6l5 5"/>
-
-          </svg>
-
-        </div>
-
-        <h3>
-          Die Making
-        </h3>
-
-        <p>
-          Manufacturing and fabrication of production dies.
-        </p>
-
-        <a href="services.html#die-making" class="link-arrow">
-          Learn More
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-
-          </svg>
-
-        </a>
-
-      </div>
-
-
-      <!-- ================= SPOT WELDING ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/spot-welding.jpg
-          -->
-
-          <img
-            src="images/spot-welding.jpg"
-            alt="Spot Welding at Halfman Engineering"
-            loading="lazy"
-          >
-
-        </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z"/>
-
-            <path d="M5 17l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/>
-
-          </svg>
-
-        </div>
-
-        <h3>
-          Spot Welding
-        </h3>
-
-        <p>
-          Spot welding solutions for automotive component
-          fabrication.
-        </p>
-
-        <a href="services.html#spot-welding" class="link-arrow">
-          Learn More
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-
-          </svg>
-
-        </a>
-
-      </div>
-
-
-      <!-- ================= CHECKING FIXTURES ================= -->
-
-      <div class="card service-card">
-
-        <div class="service-image">
-
-          <!--
-            PICTURE SLOT:
-            images/checking-fixtures.jpg
-          -->
-
-          <img
-            src="images/checking-fixtures.jpg"
-            alt="Checking Fixtures at Halfman Engineering"
-            loading="lazy"
-          >
-
-        </div>
-
-        <div class="card-icon">
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.6">
-
-            <rect x="3" y="4" width="18" height="16" rx="1.5"/>
-
-            <path d="M8 4v16"/>
-            <path d="M3 9h5"/>
-            <path d="M3 15h5"/>
-
-          </svg>
-
-        </div>
-
-        <h3>
-          Checking Fixtures
-        </h3>
-
-        <p>
-          Fixtures designed to support accurate inspection
-          and dimensional checking.
-        </p>
-
-        <a href="services.html#checking-fixtures" class="link-arrow">
-          Learn More
-
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-
-          </svg>
-
-        </a>
-
-      </div>
-
-
     </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= INDUSTRY EXPERIENCE ================= -->
-
-<section class="section experience" id="experience">
-
-  <div class="container">
-
-    <span class="eyebrow">
-      Industry Experience
-    </span>
-
-    <h2>
-      Engineering experience built on capability and quality.
-    </h2>
-
-    <p class="experience-intro">
-      Our engineering and manufacturing capabilities support
-      demanding industrial and automotive requirements.
-    </p>
-
-
-    <div class="values">
-
-
-      <!-- ITEM 1 -->
-
-      <div class="value-item">
-
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8">
-
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M8 12l2.5 2.5L16 9"/>
-
-        </svg>
-
-        <div>
-
-          <h4>
-            Precision Engineering
-          </h4>
-
-          <p>
-            Engineering solutions focused on accurate,
-            practical and repeatable manufacturing.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- ITEM 2 -->
-
-      <div class="value-item">
-
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8">
-
-          <path d="M4 5h16v14H4z"/>
-          <path d="M8 9h8M8 13h5"/>
-
-        </svg>
-
-        <div>
-
-          <h4>
-            Automotive & Industrial
-          </h4>
-
-          <p>
-            Manufacturing support for automotive and
-            industrial component requirements.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- ITEM 3 -->
-
-      <div class="value-item">
-
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8">
-
-          <path d="M3 21h18"/>
-          <path d="M5 21V7l7-4 7 4v14"/>
-          <path d="M9 21v-5h6v5"/>
-
-        </svg>
-
-        <div>
-
-          <h4>
-            Quality-Focused Processes
-          </h4>
-
-          <p>
-            A focus on accuracy, inspection and dependable
-            manufacturing processes.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <!-- ITEM 4 - NDC -->
-
-      <div class="value-item">
-
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.8">
-
-          <path d="M3 21h18"/>
-          <path d="M5 21V7l7-4 7 4v14"/>
-          <path d="M9 21v-5h6v5"/>
-          <path d="M8 10h1"/>
-          <path d="M15 10h1"/>
-          <path d="M8 13h1"/>
-          <path d="M15 13h1"/>
-
-        </svg>
-
-        <div>
-
-          <h4>
-            National Development Complex (NDC)
-          </h4>
-
-          <p>
-            Engineering and manufacturing work completed
-            for the National Development Complex (NDC).
-          </p>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= CONTACT CTA ================= -->
-
-<section class="cta" id="contact">
-
-  <div class="container">
-
-    <span class="eyebrow">
-      Let's Work Together
-    </span>
-
-    <h2>
-      Need a reliable engineering partner?
-    </h2>
-
-    <p>
-      Contact Halfman Engineering to discuss your engineering,
-      machining and manufacturing requirements.
-    </p>
-
-    <div class="buttons" style="justify-content:center;">
-
-      <a href="mailto:info@halfman-engineering.com"
-         class="btn btn-dark">
-        Email Us
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
+  </section>
 
 </main>
 
-
 <!-- ================= FOOTER ================= -->
-
-<footer>
-
+<footer class="site-footer">
   <div class="container">
-
     <div class="footer-grid">
-
-      <div>
-
-        <h3>
-          HALFMAN ENGINEERING
-        </h3>
-
-        <p>
-          Engineering & Manufacturing Services
-          for automotive and industrial applications.
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h4>
-          Services
-        </h4>
-
-        <div class="footer-links">
-
-          <a href="#services">CNC Machining</a>
-          <a href="#services">CNC Programming</a>
-          <a href="#services">Die Designing</a>
-          <a href="#services">Die Making</a>
-          <a href="#services">Spot Welding</a>
-          <a href="#services">Checking Fixtures</a>
-
+      <div class="footer-brand">
+        <a href="index.html" class="brand" aria-label="Halfman Engineering — Home">
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <span class="brand-text"><span class="name">HALFMAN</span><span class="tag">Engineering</span></span>
+        </a>
+        <p>Automotive parts manufacturing, CNC machining, tooling, fabrication and engineering solutions.</p>
+        <div class="social-row">
+          <!-- Replace with actual company social profile URLs -->
+          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="Halfman Engineering on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.55 4.78 5.86V21h-4v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.8H9z"/></svg></a>
+          <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Halfman Engineering on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.5-3H13.5V8.4c0-.87.24-1.46 1.5-1.46H16.6V4.3C16.3 4.26 15.3 4.17 14.1 4.17c-2.4 0-4 1.47-4 4.17v2.33H7.6v3h2.5V21z"/></svg></a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Halfman Engineering on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="Halfman Engineering on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.6a2.7 2.7 0 00-1.9-1.9C18 5.2 12 5.2 12 5.2s-6 0-7.7.5A2.7 2.7 0 002.4 7.6 28 28 0 002 12a28 28 0 00.4 4.4 2.7 2.7 0 001.9 1.9c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.7 2.7 0 001.9-1.9A28 28 0 0022 12a28 28 0 00-.4-4.4zM10 15V9l5.2 3z"/></svg></a>
         </div>
-
       </div>
-
-
-      <div>
-
-        <h4>
-          Company
-        </h4>
-
-        <div class="footer-links">
-
-          <a href="#about">About</a>
-          <a href="#experience">Industry Experience</a>
-          <a href="#contact">Contact</a>
-
-        </div>
-
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="awards.html">Awards</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
       </div>
-
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#cnc-machining">CNC Machining</a></li>
+          <li><a href="services.html#cnc-programming">CNC Programming</a></li>
+          <li><a href="services.html#die-designing">Die Designing</a></li>
+          <li><a href="services.html#die-making">Die Making</a></li>
+          <li><a href="services.html#spot-welding">Spot Welding</a></li>
+          <li><a href="services.html#checking-fixtures">Checking Fixtures</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li class="fc-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.3-7-11a7 7 0 0114 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Karachi, Pakistan</li>
+          <!-- Replace with real phone number -->
+          <li class="fc-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5c0 8.3 6.7 15 15 15l3-3-5-4-2 2c-2-1-4-3-5-5l2-2-4-5z"/></svg>[Add Phone Number]</li>
+          <!-- Replace with real email address -->
+          <li class="fc-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>[Add Email Address]</li>
+        </ul>
+      </div>
     </div>
-
-
-    <div class="copyright">
-
-      © 2026 Halfman Engineering. All rights reserved.
-
+    <div class="footer-bottom">
+      <p>&copy; <span data-year>2026</span> Halfman Engineering. All Rights Reserved.</p>
+      <div class="legal-links">
+        <span>Karachi, Pakistan</span>
+      </div>
     </div>
-
   </div>
-
 </footer>
 
+<button class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
 
+<script src="js/main.js"></script>
 </body>
 </html>
-```
