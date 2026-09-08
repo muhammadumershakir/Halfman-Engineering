@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HALFMAN ENGINEERING — shared site behaviour
+   HALFMAN ENGINEERING â€” shared site behaviour
    Header state, mobile navigation, scroll reveal, stat counters,
    FAQ accordion, product filter, contact form validation, image fallback.
    ========================================================================== */
@@ -164,6 +164,17 @@
     });
   }
 
+  /* ---------- Product image fallback (branded placeholder on error) ---------- */
+  document.querySelectorAll('[data-product-grid] .product-media img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      var card = img.closest('.product-card');
+      var info = card ? card.querySelector('.product-info h3') : null;
+      var label = info ? info.textContent : 'Product';
+      img.src = fallbackSVG(label);
+      img.classList.add('img-fallback-svg');
+    }, { once: true });
+  });
+
   /* ---------- Contact form validation ---------- */
   var form = document.querySelector('[data-contact-form]');
   if (form) {
@@ -235,7 +246,7 @@
       showSuccess();
 
       function showSuccess() {
-        statusText.textContent = 'Thank you — your inquiry has been prepared. Our team will get back to you shortly. (Demo form: connect a backend or form service to send this live.)';
+        statusText.textContent = 'Thank you â€” your inquiry has been prepared. Our team will get back to you shortly. (Demo form: connect a backend or form service to send this live.)';
         statusBox.classList.add('show', 'success');
         form.reset();
       }
@@ -270,8 +281,23 @@
     });
   });
 
+  /* ---------- Product image fallback (branded placeholder on error) ---------- */
+  document.querySelectorAll('[data-product-grid] .product-media img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      var card = img.closest('.product-card');
+      var info = card ? card.querySelector('.product-info h3') : null;
+      var label = info ? info.textContent : 'Product';
+      img.src = fallbackSVG(label);
+      img.classList.add('img-fallback-svg');
+    }, { once: true });
+  });
+
   /* ---------- Footer year ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
   });
 })();
+
+
+
+
