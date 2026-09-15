@@ -1,0 +1,16 @@
+# Halfman Engineering - Clean URL Rewrites
+# Place this file in the website root (public_html)
+
+RewriteEngine On
+
+# Remove .html extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# Redirect .html URLs to clean URLs (optional - for SEO)
+RewriteCond %{THE_REQUEST} \s/([^\s]+)\.html\s
+RewriteRule ^ %1 [R=301,L]
+
+# Ensure directory index works
+DirectoryIndex index.html
