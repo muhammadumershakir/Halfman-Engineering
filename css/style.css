@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    HALFMAN ENGINEERING — Design System
    Precision manufacturing / automotive engineering visual language.
    Sections: 1. Reset  2. Tokens  3. Base  4. Layout  5. Typography utils
@@ -1026,7 +1026,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* 18. Responsive --------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .split { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; gap: 40px; }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .services-card-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1047,19 +1047,31 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .stat { border-inline-start: 1px solid rgba(255,255,255,.09); }
   .stat:nth-child(2n+1) { border-inline-start: none; }
   .stat:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.09); }
+  .field input, .field textarea { font-size: 16px; }
 }
 
 @media (max-width: 640px) {
-  :root { --gap-section: 64px; }
+  :root { --gap-section: 48px; }
+  .container { padding-inline: 16px; }
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; padding-bottom: 40px; }
   .logo-row { grid-template-columns: repeat(2, 1fr); }
   .services-card-grid { grid-template-columns: 1fr; gap: 18px; }
-  .hero { min-height: 86vh; }
+  .hero { min-height: auto; padding-block: 80px 60px; }
+  .hero-actions { flex-direction: column; width: 100%; }
   .hero-actions .btn { width: 100%; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
   .fa-meta { flex-wrap: wrap; gap: 18px; }
+  .filter-bar { gap: 8px; justify-content: flex-start; }
+  .filter-btn { padding: 8px 14px; font-size: 0.8rem; }
+  .page-products .product-card { aspect-ratio: auto; }
 }
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .hero { min-height: auto; padding-block: 90px 45px; }
+  .nav-panel { overflow-y: auto; max-height: 100vh; }
+}
+
 
 
 
