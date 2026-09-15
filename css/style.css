@@ -1094,8 +1094,9 @@ html, body {
   .footer-brand p { max-width: 100%; }
   .logo-row { grid-template-columns: repeat(2, 1fr); }
   .hero { min-height: auto; padding-block: 80px 48px; }
-  .hero-media img { object-fit: cover; object-position: center 20%; opacity: .55; }
-  .page-hero .awards-hero-image { object-fit: cover; object-position: center center; opacity: .60; }
+  .hero-media { background: var(--navy-950); }
+  .hero-media img { object-fit: cover; object-position: center center; opacity: .60; }
+  .page-hero .awards-hero-image { object-fit: contain; object-position: center center; opacity: .85; }
   .hero h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); max-width: 100%; }
   .hero-tag { margin-bottom: 18px; font-size: 0.72rem; }
   .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
