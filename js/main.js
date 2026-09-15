@@ -75,6 +75,36 @@
     });
   }
 
+  /* ---------- Nav Dropdown (desktop & mobile) ---------- */
+  document.querySelectorAll('.nav-dropdown-toggle').forEach(function (toggle) {
+    var dropdown = toggle.closest('.nav-dropdown');
+    var menu = dropdown ? dropdown.querySelector('.nav-dropdown-menu') : null;
+    if (!menu) return;
+    toggle.addEventListener('click', function (e) {
+      if (window.innerWidth > 860) return; // desktop handled by CSS hover
+      e.preventDefault();
+      var isOpen = dropdown.classList.toggle('nav-dropdown-open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+    // Close dropdown when clicking outside on mobile
+    document.addEventListener('click', function (e) {
+      if (window.innerWidth <= 860 && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('nav-dropdown-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+  // Close mobile dropdowns when mobile nav closes
+  var originalCloseNav = closeNav;
+  closeNav = function () {
+    document.querySelectorAll('.nav-dropdown').forEach(function (dd) {
+      dd.classList.remove('nav-dropdown-open');
+      var t = dd.querySelector('.nav-dropdown-toggle');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    });
+    originalCloseNav();
+  };
+
   /* ---------- Scroll reveal ---------- */
   var revealEls = document.querySelectorAll('[data-reveal], [data-reveal-group]');
   if (revealEls.length) {
@@ -176,82 +206,146 @@
   });
 
   /* ---------- Contact form validation ---------- */
-  var form = document.querySelector('[data-contact-form]');
-  if (form) {
-    var statusBox = form.querySelector('.form-status');
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+var form = document.querySelector('[data-contact-form]');
 
-    function setFieldError(field, message) {
-      var wrap = field.closest('.field');
-      var errorEl = wrap.querySelector('.field-error');
-      if (message) {
-        wrap.setAttribute('data-invalid', 'true');
-        if (errorEl) errorEl.textContent = message;
-        field.setAttribute('aria-invalid', 'true');
-      } else {
-        wrap.setAttribute('data-invalid', 'false');
-        if (errorEl) errorEl.textContent = '';
-        field.removeAttribute('aria-invalid');
-      }
+if (form) {
+  var statusBox = form.querySelector('.form-status');
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function setFieldError(field, message) {
+    var wrap = field.closest('.field');
+    var errorEl = wrap.querySelector('.field-error');
+
+    if (message) {
+      wrap.setAttribute('data-invalid', 'true');
+      if (errorEl) errorEl.textContent = message;
+      field.setAttribute('aria-invalid', 'true');
+    } else {
+      wrap.setAttribute('data-invalid', 'false');
+      if (errorEl) errorEl.textContent = '';
+      field.removeAttribute('aria-invalid');
+    }
+  }
+
+  function validateField(field) {
+    var value = field.value.trim();
+
+    if (field.hasAttribute('required') && !value) {
+      setFieldError(field, 'This field is required.');
+      return false;
     }
 
-    function validateField(field) {
-      var value = field.value.trim();
-      if (field.hasAttribute('required') && !value) {
-        setFieldError(field, 'This field is required.');
-        return false;
-      }
-      if (field.type === 'email' && value && !emailPattern.test(value)) {
-        setFieldError(field, 'Please enter a valid email address.');
-        return false;
-      }
-      setFieldError(field, '');
-      return true;
+    if (field.type === 'email' && value && !emailPattern.test(value)) {
+      setFieldError(field, 'Please enter a valid email address.');
+      return false;
     }
 
-    form.querySelectorAll('input, textarea').forEach(function (field) {
-      field.addEventListener('blur', function () { validateField(field); });
+    setFieldError(field, '');
+    return true;
+  }
+
+  form.querySelectorAll('input, textarea').forEach(function (field) {
+    field.addEventListener('blur', function () {
+      validateField(field);
+    });
+    field.addEventListener('input', function () {
+      if (field.closest('.field').getAttribute('data-invalid') === 'true') {
+        validateField(field);
+      }
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var fields = form.querySelectorAll('input, textarea');
+    var valid = true;
+
+    fields.forEach(function (field) {
+      if (!validateField(field)) {
+        valid = false;
+      }
     });
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var fields = form.querySelectorAll('input, textarea');
-      var valid = true;
-      fields.forEach(function (field) { if (!validateField(field)) valid = false; });
+    var statusText = statusBox.querySelector('span');
 
-      var statusText = statusBox.querySelector('span');
-      statusBox.classList.remove('show', 'success', 'error');
+    statusBox.classList.remove('show', 'success', 'error');
 
-      if (!valid) {
-        statusText.textContent = 'Please correct the highlighted fields before submitting.';
-        statusBox.classList.add('show', 'error');
-        var firstInvalid = form.querySelector('[aria-invalid="true"]');
-        if (firstInvalid) firstInvalid.focus();
-        return;
+    if (!valid) {
+      statusText.textContent =
+        'Please correct the highlighted fields before submitting.';
+
+      statusBox.classList.add('show', 'error');
+
+      var firstInvalid = form.querySelector('[aria-invalid="true"]');
+
+      if (firstInvalid) {
+        firstInvalid.focus();
       }
 
-      /* --------------------------------------------------------------------
-         No backend / email service is connected yet.
-         Replace this block with a real submission, e.g.:
+      return;
+    }
 
-         fetch('/api/contact', {
-           method: 'POST',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify(Object.fromEntries(new FormData(form)))
-         })
-           .then(function (res) { if (!res.ok) throw new Error('Request failed'); })
-           .then(function () { showSuccess(); })
-           .catch(function () { showError(); });
-      -------------------------------------------------------------------- */
-      showSuccess();
+    var submitButton = form.querySelector('button[type="submit"]');
+    var originalButtonText = submitButton
+      ? submitButton.innerHTML
+      : '';
 
-      function showSuccess() {
-        statusText.textContent = 'Thank you â€” your inquiry has been prepared. Our team will get back to you shortly. (Demo form: connect a backend or form service to send this live.)';
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.setAttribute('aria-busy', 'true');
+    }
+
+    statusText.textContent = 'Sending your inquiry...';
+    statusBox.classList.add('show');
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          throw new Error(
+            'Unable to send your inquiry. Please try again.'
+          );
+        }
+
+        return res.json();
+      })
+      .then(function () {
+        statusText.textContent =
+          'Thank you — your inquiry has been sent successfully. Our team will get back to you shortly.';
+
+        statusBox.classList.remove('error');
         statusBox.classList.add('show', 'success');
+
         form.reset();
-      }
+
+        fields.forEach(function (field) {
+          setFieldError(field, '');
+        });
+      })
+      .catch(function (error) {
+        statusText.textContent =
+          error.message ||
+          'Unable to send your inquiry. Please try again.';
+
+        statusBox.classList.remove('success');
+        statusBox.classList.add('show', 'error');
+      })
+      .finally(function () {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.removeAttribute('aria-busy');
+          submitButton.innerHTML = originalButtonText;
+        }
+      });
     });
   }
+    
 
   /* ---------- Image fallback (branded placeholder on load failure) ---------- */
   function fallbackSVG(label) {
@@ -279,17 +373,6 @@
       img.src = fallbackSVG(img.getAttribute('data-fallback'));
       img.classList.add('img-fallback-svg');
     });
-  });
-
-  /* ---------- Product image fallback (branded placeholder on error) ---------- */
-  document.querySelectorAll('[data-product-grid] .product-media img').forEach(function (img) {
-    img.addEventListener('error', function () {
-      var card = img.closest('.product-card');
-      var info = card ? card.querySelector('.product-info h3') : null;
-      var label = info ? info.textContent : 'Product';
-      img.src = fallbackSVG(label);
-      img.classList.add('img-fallback-svg');
-    }, { once: true });
   });
 
   /* ---------- Footer year ---------- */
