@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    HALFMAN ENGINEERING â€” shared site behaviour
    Header state, mobile navigation, scroll reveal, stat counters,
    FAQ accordion, product filter, contact form validation, image fallback.
@@ -76,16 +76,23 @@
   }
 
   /* ---------- Nav Dropdown (desktop & mobile) ---------- */
-  document.querySelectorAll('.nav-dropdown-toggle').forEach(function (toggle) {
-    var dropdown = toggle.closest('.nav-dropdown');
-    var menu = dropdown ? dropdown.querySelector('.nav-dropdown-menu') : null;
-    if (!menu) return;
-    toggle.addEventListener('click', function (e) {
-      if (window.innerWidth > 860) return; // desktop handled by CSS hover
-      e.preventDefault();
-      var isOpen = dropdown.classList.toggle('nav-dropdown-open');
-      toggle.setAttribute('aria-expanded', isOpen);
-    });
+  document.querySelectorAll('.nav-dropdown').forEach(function (dropdown) {
+    var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+    var menu = dropdown.querySelector('.nav-dropdown-menu');
+    var arrow = dropdown.querySelector('.nav-dropdown-toggle svg');
+    if (!toggle || !menu) return;
+
+    if (arrow) {
+      arrow.addEventListener('click', function (e) {
+        if (window.innerWidth <= 860) {
+          e.preventDefault();
+          e.stopPropagation();
+          var isOpen = dropdown.classList.toggle('nav-dropdown-open');
+          toggle.setAttribute('aria-expanded', isOpen);
+        }
+      });
+    }
+
     // Close dropdown when clicking outside on mobile
     document.addEventListener('click', function (e) {
       if (window.innerWidth <= 860 && !dropdown.contains(e.target)) {
