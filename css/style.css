@@ -417,17 +417,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .card-dark p { color: var(--steel-200); }
 
 /* 11b. Process cards (Manufacturing Process — services page) --------------- */
-.process-grid { gap: 28px; align-items: start; }
+.process-grid { gap: 28px; align-items: stretch; }
 .process-card {
   position: relative;
   overflow: hidden;
-  padding: 36px 30px 32px;
-  border: 1px solid #e5e7eb;
+  padding: 36px 28px 30px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(175deg, rgba(26,32,41,.85) 0%, rgba(15,21,32,.95) 100%);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 12px 32px -12px rgba(0,0,0,.45);
+  backdrop-filter: blur(8px);
   isolation: isolate;
-  transition: transform var(--dur-med) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), margin-top var(--dur-med) var(--ease);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--dur-med) var(--ease), border-color var(--dur-fast) var(--ease), box-shadow var(--dur-med) var(--ease), margin-top var(--dur-med) var(--ease);
 }
-/* Zig-zag layout: middle column steps down, creating a wave across each row of 3 */
-.process-grid .process-card:nth-child(3n+2) { margin-top: 48px; }
+/* Zig-zag layout for desktop */
+.process-grid .process-card:nth-child(3n+2) { margin-top: 36px; }
 .process-grid .process-card:nth-child(3n+1),
 .process-grid .process-card:nth-child(3n+3) { margin-top: 0; }
 .process-card::before {
@@ -439,47 +445,65 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .process-card:hover::before { transform: scaleX(1); }
 .process-card:hover {
-  border-color: var(--accent-bright);
+  border-color: rgba(91,130,255,.35);
   transform: translateY(-6px);
-  box-shadow: 0 24px 48px -22px rgba(62,107,255,.28);
+  box-shadow: 0 20px 44px -16px rgba(62,107,255,.25), 0 0 0 1px rgba(91,130,255,.15);
 }
 .process-card__num {
   position: absolute;
   top: 14px; right: 20px;
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   line-height: 1;
-  color: var(--ink-900);
-  opacity: .06;
-  letter-spacing: -0.02em;
+  color: rgba(255,255,255,.06);
+  letter-spacing: -0.03em;
   z-index: 0;
   transition: opacity var(--dur-med) var(--ease), color var(--dur-med) var(--ease);
 }
-.process-card:hover .process-card__num { opacity: .1; color: var(--accent); }
+.process-card:hover .process-card__num { color: var(--accent-bright); opacity: .15; }
 .process-card .card-icon {
   position: relative; z-index: 1;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: linear-gradient(145deg, var(--navy-800), var(--navy-950));
-  box-shadow: inset 0 0 0 1px rgba(91,130,255,.18);
-  transition: background var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease), transform var(--dur-med) var(--ease);
+  width: 52px; height: 52px; border-radius: 12px;
+  background: rgba(91,130,255,.1);
+  border: 1px solid rgba(91,130,255,.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  transition: background var(--dur-med) var(--ease), border-color var(--dur-med) var(--ease), transform var(--dur-med) var(--ease);
+}
+.process-card .card-icon svg {
+  color: var(--accent-bright);
+  width: 24px;
+  height: 24px;
+  transition: color var(--dur-med) var(--ease);
 }
 .process-card:hover .card-icon {
-  background: linear-gradient(145deg, var(--accent), var(--accent-dim));
-  box-shadow: 0 10px 24px -8px rgba(62,107,255,.55);
-  transform: scale(1.07);
+  background: var(--accent);
+  border-color: var(--accent-bright);
+  transform: scale(1.05);
 }
-.process-card .card-icon svg { transition: color var(--dur-med) var(--ease); }
 .process-card:hover .card-icon svg { color: var(--white); }
 .process-card h3 {
   position: relative; z-index: 1;
-  font-size: 1.18rem;
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--white);
   margin-bottom: 10px;
+  letter-spacing: -0.01em;
 }
-.process-card p { position: relative; z-index: 1; }
+.process-card p {
+  position: relative; z-index: 1;
+  color: var(--steel-200);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+}
 @media (max-width: 720px) {
-  .process-card__num { font-size: 2.1rem; top: 10px; right: 16px; }
-  .process-card { padding: 30px 24px 26px; }
+  .process-card__num { font-size: 2.2rem; top: 12px; right: 16px; }
+  .process-card { padding: 26px 20px 24px; }
 }
 
 /* Service cards (services page) */
@@ -709,11 +733,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     text-align: left;
     align-items: stretch;
   }
+  /* Har section me mobile pe Pehle Picture (order: 1), Phir Text (order: 2) */
+  .service-split__media {
+    order: 1 !important;
+  }
+  .service-split__content {
+    order: 2 !important;
+  }
   .service-split:nth-of-type(even) .service-split__container {
     direction: ltr;
-  }
-  .service-split:nth-of-type(even) .service-split__media {
-    order: 0;
   }
   .service-split__content {
     padding: 0 4px;
@@ -1514,9 +1542,10 @@ html, body {
   .page-hero-compact {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    min-height: 0;
+    min-height: 70vh;
     padding-top: 0;
     align-items: stretch;
+    position: relative;
   }
   .hero-media,
   .hero-content {
@@ -1529,7 +1558,7 @@ html, body {
     align-self: stretch;
     padding-top: var(--header-h);
     background: var(--navy-950);
-    min-height: 0;
+    min-height: 280px;
   }
   .hero-media img,
   .page-hero .awards-hero-image {
@@ -1538,15 +1567,16 @@ html, body {
     max-height: none;
     min-height: 0;
     object-fit: cover;
-    object-position: center center;
+    object-position: center 25%;
   }
   .page-hero .awards-hero-image { opacity: .85; }
   .hero-content {
     align-self: end;
-    padding-block: calc(var(--header-h) + 28px) 40px;
+    padding-block: calc(var(--header-h) + 60px) 36px;
+    background: linear-gradient(180deg, transparent 0%, rgba(5,7,11,.65) 30%, rgba(5,7,11,.92) 100%);
   }
   .hero h1 { max-width: 100%; }
-  .hero-tag { line-height: 1.45; }
+  .hero-tag { line-height: 1.45; margin-bottom: 16px; }
   .hero-actions .btn { white-space: normal; text-align: center; }
 
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
@@ -1677,11 +1707,11 @@ html, body {
 
   .logo-row,
   .logo-row-3 { grid-template-columns: repeat(2, 1fr); }
-  .hero-media img { opacity: .60; object-position: center center; }
+  .hero-media img { opacity: .75; object-position: center 20%; }
   .page-hero .awards-hero-image { opacity: .85; }
-  .hero h1 { font-size: clamp(1.6rem, 6vw, 2rem); }
-  .hero-tag { margin-bottom: 18px; font-size: 0.72rem; }
-  .hero-content { padding-block: calc(var(--header-h) + 20px) 32px; }
+  .hero h1 { font-size: clamp(1.5rem, 5.5vw, 1.9rem); line-height: 1.2; }
+  .hero-tag { margin-bottom: 14px; font-size: 0.7rem; }
+  .hero-content { padding-block: calc(var(--header-h) + 60px) 28px; }
   .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
   .hero-actions .btn { width: 100%; justify-content: center; }
   .hero-actions .btn { padding: 13px 24px; font-size: 0.88rem; }
@@ -1715,21 +1745,43 @@ html, body {
   .page-products .product-desc { font-size: 0.82rem; margin-bottom: 14px; }
 }
 
-/* Extra-small phones */
+/* Extra-small phones & Foldables (Galaxy Z Fold cover screen ~280px - 360px) */
 @media (max-width: 375px) {
   :root { --gap-section: 40px; }
   .container { padding-inline: 12px; }
-  .brand-text .name { font-size: 0.9rem; }
-  .brand-text .tag { font-size: 0.55rem; letter-spacing: 0.16em; }
-  .brand-mark, .brand-mark img { width: 34px; height: 34px; }
-  .hero h1 { font-size: 1.65rem; }
-  .btn { padding: 12px 18px; font-size: 0.82rem; white-space: normal; }
+  .brand { gap: 8px; max-width: calc(100% - 50px); }
+  .brand-text .name { font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .tag { font-size: 0.52rem; letter-spacing: 0.12em; }
+  .brand-mark, .brand-mark img { width: 32px; height: 32px; flex-shrink: 0; }
+  .hero h1 { font-size: 1.55rem; word-break: break-word; }
+  .hero-tag { font-size: 0.65rem; padding: 6px 12px; }
+  .btn { padding: 12px 16px; font-size: 0.82rem; white-space: normal; }
   .stat-strip .grid-4 { grid-template-columns: 1fr; }
   .stat { border-inline-start: none !important; border-top: 1px solid rgba(255,255,255,.09); }
   .stat:first-child { border-top: none; }
   .logo-row,
   .logo-row-3 { grid-template-columns: 1fr; }
   .workflow { grid-template-columns: 1fr; }
+  .faq-q { font-size: 0.95rem; gap: 12px; }
+  .footer-col { font-size: 0.88rem; }
+}
+
+@media (max-width: 320px) {
+  .container { padding-inline: 8px; }
+  .header-inner { gap: 8px; }
+  .nav-toggle { width: 38px; height: 38px; flex-shrink: 0; }
+  .hero h1 { font-size: 1.35rem; }
+  .hero-tag { font-size: 0.6rem; padding: 4px 8px; }
+  .btn { padding: 10px 12px; font-size: 0.78rem; width: 100%; }
+  .brand-text .name { font-size: 0.8rem; }
+  .brand-text .tag { font-size: 0.48rem; }
+  .brand-mark, .brand-mark img { width: 28px; height: 28px; }
+  .service-split__title { font-size: 1rem; }
+  .service-split__desc { font-size: 0.78rem; }
+  .card { padding: 18px 14px; }
+  .process-card { padding: 20px 14px; }
+  .product-info { padding: 14px; }
+  .product-info h3 { font-size: 0.95rem; }
 }
 
 /* Short landscape phones */
