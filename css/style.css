@@ -1593,17 +1593,17 @@ html, body {
     object-position: center center;
     opacity: .92;
   }
-  /* Homepage hero overlay: dark at top behind H1, clear middle, dark at bottom behind paragraph/buttons */
+  /* Homepage hero overlay: dark at top behind H1, clear middle for people in picture, dark at bottom behind buttons */
   .hero:not(.page-hero) .hero-media::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
       rgba(5,7,11,.86) 0%,
-      rgba(5,7,11,.72) 28%,
-      rgba(5,7,11,.32) 52%,
-      rgba(5,7,11,.76) 76%,
-      rgba(5,7,11,.96) 100%
+      rgba(5,7,11,.70) 28%,
+      rgba(5,7,11,.20) 52%,
+      rgba(5,7,11,.65) 80%,
+      rgba(5,7,11,.94) 100%
     );
     pointer-events: none;
   }
@@ -1621,7 +1621,7 @@ html, body {
     );
     pointer-events: none;
   }
-  /* Hero content: full-height flex column — H1 stays at top, paragraph & buttons push to bottom */
+  /* Hero content: full-height flex column — H1 & lede stay at top, buttons push to bottom */
   .hero-content,
   .page-hero .hero-content {
     align-self: stretch;
@@ -1677,17 +1677,21 @@ html, body {
     flex-shrink: 0;
   }
   .hero-corner { display: none; }
-  /* Hero buttons: near bottom, same line (left + right, not stacked) */
+  /* Homepage hero buttons: near bottom, same line (left + right, not stacked) */
   .hero .hero-actions {
-    margin-top: clamp(14px, 2.5vw, 20px);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap !important;
     align-items: center;
     justify-content: flex-start;
-    gap: clamp(8px, 1.8vw, 14px);
+    gap: clamp(10px, 2vw, 16px);
     width: 100%;
     max-width: 100%;
+    margin-top: clamp(16px, 2.5vw, 22px);
+  }
+  .hero:not(.page-hero) .hero-actions {
+    margin-top: auto !important;
+    padding-top: clamp(16px, 2.5vw, 24px);
   }
   .hero .hero-actions .btn {
     flex: 0 1 auto;
@@ -1698,13 +1702,13 @@ html, body {
     white-space: nowrap !important;
     text-align: center;
     font-weight: 600;
-    font-size: clamp(0.8rem, 1.4vw, 0.88rem);
-    padding: 10px clamp(14px, 2vw, 22px);
+    font-size: clamp(0.85rem, 1.5vw, 0.92rem);
+    padding: 12px clamp(16px, 2.2vw, 26px);
     border-radius: var(--radius-sm);
   }
   .hero .hero-actions .btn svg {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
     margin-left: 6px;
   }
@@ -1914,7 +1918,6 @@ html, body {
     flex-wrap: nowrap !important;
     white-space: nowrap !important;
   }
-  .hero-tag .dot { width: 5px; height: 5px; }
   .hero .hero-actions {
     display: flex;
     flex-direction: row;
@@ -1923,27 +1926,31 @@ html, body {
     justify-content: flex-start;
     width: 100%;
     max-width: 100%;
-    gap: clamp(6px, 1.8vw, 10px);
+    gap: clamp(8px, 2vw, 12px);
     margin-top: 16px;
+  }
+  .hero:not(.page-hero) .hero-actions {
+    margin-top: auto !important;
+    padding-top: 16px;
   }
   .hero .hero-actions .btn {
     flex: 1 1 0;
     min-width: 0;
-    width: auto;
+    width: auto !important;
     max-width: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     white-space: nowrap !important;
     text-align: center;
-    padding: 8px clamp(6px, 1.5vw, 12px);
-    font-size: clamp(0.68rem, 2.2vw, 0.76rem);
+    padding: 11px clamp(10px, 2.2vw, 16px);
+    font-size: clamp(0.76rem, 2.4vw, 0.84rem);
     font-weight: 600;
     letter-spacing: .01em;
     line-height: 1.2;
     border-radius: var(--radius-sm);
   }
-  .hero .hero-actions .btn svg { width: 12px; height: 12px; flex-shrink: 0; margin-left: 4px; }
+  .hero .hero-actions .btn svg { width: 14px; height: 14px; flex-shrink: 0; margin-left: 5px; }
   .hero .hero-actions .btn-outline {
     background: rgba(10, 14, 21, .65);
     backdrop-filter: blur(8px);
@@ -2019,19 +2026,23 @@ html, body {
     justify-content: flex-start;
     width: 100%;
     max-width: 100%;
+    gap: 8px;
     margin-top: 14px;
-    gap: 6px;
+  }
+  .hero:not(.page-hero) .hero-actions {
+    margin-top: auto !important;
+    padding-top: 14px;
   }
   .hero .hero-actions .btn {
     flex: 1 1 0;
     min-width: 0;
     width: auto !important;
-    padding: 7px clamp(4px, 1.2vw, 8px);
-    font-size: 0.64rem;
+    padding: 10px clamp(8px, 1.8vw, 14px);
+    font-size: 0.72rem;
     letter-spacing: 0;
     white-space: nowrap !important;
   }
-  .hero .hero-actions .btn svg { width: 10px; height: 10px; margin-left: 3px; }
+  .hero .hero-actions .btn svg { width: 12px; height: 12px; margin-left: 4px; }
   .btn { padding: 10px 14px; font-size: 0.8rem; white-space: normal; }
   .stat-strip .grid-4 { grid-template-columns: 1fr; }
   .stat { border-inline-start: none !important; border-top: 1px solid rgba(255,255,255,.09); }
@@ -2078,19 +2089,23 @@ html, body {
     justify-content: flex-start;
     width: 100%;
     max-width: 100%;
+    gap: 6px;
     margin-top: 12px;
-    gap: 4px;
+  }
+  .hero:not(.page-hero) .hero-actions {
+    margin-top: auto !important;
+    padding-top: 12px;
   }
   .hero .hero-actions .btn {
     flex: 1 1 0;
     min-width: 0;
     width: auto !important;
-    padding: 6px 3px;
-    font-size: 0.58rem;
+    padding: 8px 6px;
+    font-size: 0.64rem;
     letter-spacing: -0.01em;
     white-space: nowrap !important;
   }
-  .hero .hero-actions .btn svg { width: 8px; height: 8px; margin-left: 2px; }
+  .hero .hero-actions .btn svg { width: 10px; height: 10px; margin-left: 3px; }
   .btn { padding: 10px 12px; font-size: 0.78rem; width: 100%; }
   .brand-text .name { font-size: 0.8rem; }
   .brand-text .tag { font-size: 0.48rem; }
@@ -2135,6 +2150,98 @@ body.page-services .cta-band p { margin-top: 12px; }
   body.page-services .service-split__content { gap: 10px; padding: 0; }
   body.page-services .page-hero .hero-content { padding-top: calc(var(--header-h) + 16px); padding-bottom: 24px; }
 }
+
+/* 19. Contact page hero banner — matching laptop look on mobile and tablet */
+@media (max-width: 1024px) {
+  .page-hero-compact {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-height: 70vh !important;
+    min-height: 500px !important;
+    padding-top: var(--header-h) !important;
+    position: relative !important;
+  }
+  .page-hero-compact .hero-media {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+  }
+  .page-hero-compact .hero-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 70% center !important;
+    opacity: 0.85 !important;
+    filter: contrast(1.04) brightness(1.02) !important;
+  }
+  .page-hero-compact .hero-media::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+      linear-gradient(180deg,
+        rgba(5,7,11,.35) 0%,
+        rgba(5,7,11,.15) 50%,
+        rgba(5,7,11,.65) 100%),
+      linear-gradient(90deg,
+        rgba(5,7,11,.82) 0%,
+        rgba(5,7,11,.45) 55%,
+        rgba(5,7,11,.12) 100%) !important;
+    pointer-events: none !important;
+  }
+  .page-hero-compact .hero-content {
+    position: relative !important;
+    z-index: 2 !important;
+    align-self: center !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding-block: 40px !important;
+    background: transparent !important;
+    width: 100% !important;
+  }
+  .page-hero-compact h1 {
+    font-size: clamp(1.65rem, 5.2vw, 2.3rem) !important;
+    max-width: 16ch !important;
+    line-height: 1.18 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,.85) !important;
+  }
+  .page-hero-compact .lede {
+    font-size: clamp(0.85rem, 2.4vw, 0.98rem) !important;
+    margin-top: 14px !important;
+    max-width: 50ch !important;
+    line-height: 1.5 !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,.9) !important;
+  }
+  .page-hero-compact .hero-corner {
+    display: block !important;
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .page-hero-compact .hero-corner.tl { top: 20px !important; left: 20px !important; }
+  .page-hero-compact .hero-corner.br { bottom: 20px !important; right: 20px !important; }
+}
+
+@media (max-width: 480px) {
+  .page-hero-compact {
+    min-height: 65vh !important;
+    min-height: 440px !important;
+  }
+  .page-hero-compact .hero-media img {
+    object-position: 74% center !important;
+  }
+  .page-hero-compact .hero-content {
+    padding-block: 28px !important;
+  }
+  .page-hero-compact h1 {
+    font-size: clamp(1.4rem, 6vw, 1.75rem) !important;
+  }
+}
+
 
 
 
