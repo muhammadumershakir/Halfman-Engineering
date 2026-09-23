@@ -1643,11 +1643,11 @@ html, body {
     line-height: 1.18;
     margin-bottom: 0;
   }
-  /* Paragraph text moved DOWN toward bottom of hero banner */
+  /* Paragraph text directly under H1 */
   .hero .lede,
   .page-hero .hero-content .lede {
-    margin-top: auto !important;
-    padding-top: clamp(16px, 2.5vw, 28px);
+    margin-top: clamp(14px, 2vw, 20px) !important;
+    padding-top: 0;
     margin-bottom: 0;
     max-width: 62ch;
     font-size: clamp(0.92rem, 1.5vw, 1.02rem);
@@ -1762,8 +1762,8 @@ html, body {
   .hero .lede,
   .page-hero .hero-content .lede {
     font-size: 0.95rem;
-    margin-top: auto !important;
-    padding-top: 14px;
+    margin-top: 14px !important;
+    padding-top: 0;
     margin-bottom: 0;
   }
   .hero-content,
@@ -1814,8 +1814,8 @@ html, body {
   .hero .lede,
   .page-hero .hero-content .lede {
     font-size: 0.92rem;
-    margin-top: auto !important;
-    padding-top: 14px;
+    margin-top: 14px !important;
+    padding-top: 0;
     margin-bottom: 0;
   }
   .hero-content,
@@ -1901,8 +1901,8 @@ html, body {
   .page-hero .hero-content .lede {
     font-size: clamp(0.82rem, 2.5vw, 0.88rem);
     line-height: 1.45;
-    margin-top: auto !important;
-    padding-top: 14px;
+    margin-top: 12px !important;
+    padding-top: 0;
     margin-bottom: 0;
   }
   .hero-tag {
@@ -2004,8 +2004,8 @@ html, body {
   .hero .lede,
   .page-hero .hero-content .lede {
     font-size: 0.8rem;
-    margin-top: auto !important;
-    padding-top: 12px;
+    margin-top: 10px !important;
+    padding-top: 0;
     margin-bottom: 0;
     line-height: 1.4;
   }
@@ -2063,8 +2063,8 @@ html, body {
   .hero .lede,
   .page-hero .hero-content .lede {
     font-size: 0.75rem;
-    margin-top: auto !important;
-    padding-top: 10px;
+    margin-top: 8px !important;
+    padding-top: 0;
     margin-bottom: 0;
     line-height: 1.38;
   }
