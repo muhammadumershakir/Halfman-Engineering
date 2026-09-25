@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HALFMAN ENGINEERING â€” shared site behaviour
+   HALFMAN ENGINEERING — shared site behaviour
    Header state, mobile navigation, scroll reveal, stat counters,
    FAQ accordion, product filter, contact form validation, image fallback.
    ========================================================================== */
@@ -202,11 +202,11 @@
   }
 
   /* ---------- Product image fallback (branded placeholder on error) ---------- */
-  document.querySelectorAll('[data-product-grid] .product-media img').forEach(function (img) {
+  document.querySelectorAll('[data-product-grid] .product-media img, [data-product-grid] .product-img-wrap img').forEach(function (img) {
     img.addEventListener('error', function () {
       var card = img.closest('.product-card');
-      var info = card ? card.querySelector('.product-info h3') : null;
-      var label = info ? info.textContent : 'Product';
+      var info = card ? (card.querySelector('.product-info h3') || card.querySelector('.product-name')) : null;
+      var label = info ? info.textContent.trim() : 'Product';
       img.src = fallbackSVG(label);
       img.classList.add('img-fallback-svg');
     }, { once: true });
@@ -306,21 +306,30 @@ if (form) {
     statusText.textContent = 'Sending your inquiry...';
     statusBox.classList.add('show');
 
+    var formData = new FormData(form);
+    var jsonData = {};
+    formData.forEach(function (value, key) {
+      jsonData[key] = value;
+    });
+
     fetch(form.action, {
       method: 'POST',
-      body: new FormData(form),
+      body: JSON.stringify(jsonData),
       headers: {
-        Accept: 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
       .then(function (res) {
-        if (!res.ok) {
-          throw new Error(
-            'Unable to send your inquiry. Please try again.'
-          );
-        }
-
-        return res.json();
+        return res.json().then(function (data) {
+          if (!res.ok) {
+            var msg = (data && data.errors && data.errors.length)
+              ? data.errors.map(function (e) { return e.message; }).join(', ')
+              : 'Unable to send your inquiry. Please try again.';
+            throw new Error(msg);
+          }
+          return data;
+        });
       })
       .then(function () {
         statusText.textContent =
