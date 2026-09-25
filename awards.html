@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -17,6 +17,8 @@
 <meta name="twitter:title" content="Awards & Industry Recognition | Halfman Engineering">
 <meta name="twitter:description" content="Awards, recognition and industry achievements earned by Halfman Engineering over 40+ years in automotive manufacturing.">
 <meta name="twitter:image" content="https://www.halfmanengineering.com/images/awards%20rack%202.jpeg">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -123,7 +125,7 @@
   <!-- ================= HERO ================= -->
   <section class="hero page-hero">
     <div class="hero-media">
-      <img decoding="async" class="awards-hero-image" src="images/awards rack 2.jpeg" alt="Awards rack showcasing Halfman Engineering's industry recognition and achievements" loading="eager">
+      <img decoding="async" class="awards-hero-image" src="images/awards rack 2.jpeg" alt="Awards rack showcasing Halfman Engineering's industry recognition and achievements" loading="eager" fetchpriority="high">
     </div>
     <span class="hero-corner tl" aria-hidden="true"></span>
     <span class="hero-corner br" aria-hidden="true"></span>
@@ -550,11 +552,6 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
-
-
-
-
-

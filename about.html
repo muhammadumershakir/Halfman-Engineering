@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,6 +19,8 @@
 <meta name="twitter:title" content="About Halfman Engineering | 40+ Years of Engineering Excellence">
 <meta name="twitter:description" content="40+ years of engineering experience. 30+ years as a trusted vendor for Pak Suzuki. Precision automotive manufacturing built on quality and innovation.">
 <meta name="twitter:image" content="https://www.halfmanengineering.com/images/welding%20shop.jpeg">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -142,7 +144,7 @@
       <!-- Replace with a real Halfman Engineering team/facility photograph -->
       <img decoding="async" src="images/Group Photo - Annual Supplier Conference 2024.jpg"
            data-fallback="Halfman Engineering Team replace with real photograph"
-           alt="Engineer working on precision manufacturing equipment" loading="eager">
+           alt="Engineer working on precision manufacturing equipment" loading="eager" fetchpriority="high">
     </div>
     <span class="hero-corner tl" aria-hidden="true"></span>
     <span class="hero-corner br" aria-hidden="true"></span>
@@ -406,10 +408,6 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
-
-
-
-

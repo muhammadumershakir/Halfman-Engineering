@@ -8,22 +8,26 @@
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Header scroll state ---------- */
+  /* ---------- Header & Back to top scroll state ---------- */
   var header = document.querySelector('.site-header');
-  if (header) {
-    var onScroll = function () {
-      header.classList.toggle('is-scrolled', window.scrollY > 24);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  /* ---------- Back to top ---------- */
   var backToTop = document.querySelector('.back-to-top');
-  if (backToTop) {
+  if (header || backToTop) {
+    var scrollTicking = false;
+    var handleScroll = function () {
+      var scrollY = window.scrollY;
+      if (header) header.classList.toggle('is-scrolled', scrollY > 24);
+      if (backToTop) backToTop.classList.toggle('show', scrollY > 700);
+      scrollTicking = false;
+    };
+    handleScroll();
     window.addEventListener('scroll', function () {
-      backToTop.classList.toggle('show', window.scrollY > 700);
+      if (!scrollTicking) {
+        requestAnimationFrame(handleScroll);
+        scrollTicking = true;
+      }
     }, { passive: true });
+  }
+  if (backToTop) {
     backToTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     });
@@ -396,7 +400,3 @@ if (form) {
     el.textContent = new Date().getFullYear();
   });
 })();
-
-
-
-
