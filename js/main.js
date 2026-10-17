@@ -862,6 +862,12 @@
             statusBox.classList.remove('error');
             statusBox.classList.add('show', 'success');
           }
+          if (typeof window.showToast === 'function') {
+            window.showToast('Inquiry Dispatched', 'Our engineering team will review your specifications and respond shortly.', 'success');
+          }
+          if (typeof window.trackEvent === 'function') {
+            window.trackEvent('contact_form_submit', { form: 'main_contact' });
+          }
           form.reset();
           fields.forEach(function (f) { setFieldError(f, ''); });
         })
@@ -870,6 +876,9 @@
           if (statusBox) {
             statusBox.classList.remove('success');
             statusBox.classList.add('show', 'error');
+          }
+          if (typeof window.showToast === 'function') {
+            window.showToast('Transmission Failed', err.message || 'Please reach out directly via email.', 'error');
           }
         })
         .finally(function () {
@@ -1033,4 +1042,315 @@
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
   });
+
+  /* ==========================================================================
+     18. TOAST NOTIFICATION ENGINE (Checklist Item 4)
+     ========================================================================== */
+  var toastContainer = null;
+  function getToastContainer() {
+    if (!toastContainer) {
+      toastContainer = document.querySelector('.hm-toast-container');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'hm-toast-container';
+        toastContainer.setAttribute('role', 'status');
+        toastContainer.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastContainer);
+      }
+    }
+    return toastContainer;
+  }
+
+  window.showToast = function (title, body, type, duration) {
+    type = type || 'info';
+    duration = duration || 4000;
+    var container = getToastContainer();
+
+    var toast = document.createElement('div');
+    toast.className = 'hm-toast hm-toast-' + type;
+
+    var iconSvg = '';
+    if (type === 'success') {
+      iconSvg = '<svg class="hm-toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+    } else if (type === 'error') {
+      iconSvg = '<svg class="hm-toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+    } else {
+      iconSvg = '<svg class="hm-toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    }
+
+    toast.innerHTML = iconSvg +
+      '<div class="hm-toast-content">' +
+        (title ? '<div class="hm-toast-title">' + title + '</div>' : '') +
+        (body ? '<div class="hm-toast-body">' + body + '</div>' : '') +
+      '</div>' +
+      '<button class="hm-toast-close" aria-label="Close notification">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
+      '</button>';
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(function () {
+      toast.classList.add('show');
+    });
+
+    var dismissTimer = setTimeout(function () {
+      dismiss();
+    }, duration);
+
+    function dismiss() {
+      clearTimeout(dismissTimer);
+      toast.classList.remove('show');
+      setTimeout(function () {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 320);
+    }
+
+    var closeBtn = toast.querySelector('.hm-toast-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', dismiss);
+    }
+  };
+
+  /* ==========================================================================
+     19. CONVERSION EVENT TRACKING (Checklist Item 7)
+     ========================================================================== */
+  window.trackEvent = function (eventName, eventParams) {
+    eventParams = eventParams || {};
+    window.dataLayer = window.dataLayer || [];
+    var payload = Object.assign({
+      event: eventName,
+      page_url: window.location.href,
+      timestamp: new Date().toISOString()
+    }, eventParams);
+
+    window.dataLayer.push(payload);
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventParams);
+    }
+
+    try {
+      document.dispatchEvent(new CustomEvent('halfman:track', { detail: payload }));
+    } catch (e) {}
+  };
+
+  function initConversionTracking() {
+    // Track Phone Clicks
+    document.querySelectorAll('a[href^="tel:"]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        window.trackEvent('click_to_call', {
+          phone_number: el.getAttribute('href').replace('tel:', ''),
+          link_text: el.textContent.trim()
+        });
+      });
+    });
+
+    // Track Email Clicks
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        window.trackEvent('click_to_email', {
+          email_address: el.getAttribute('href').replace('mailto:', ''),
+          link_text: el.textContent.trim()
+        });
+      });
+    });
+
+    // Track Quote Request Buttons
+    document.querySelectorAll('.kh-explore-btn, a[href*="contact.html"], .btn-primary').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.textContent.trim();
+        if (text.toLowerCase().indexOf('quote') !== -1 || text.toLowerCase().indexOf('inquire') !== -1 || text.toLowerCase().indexOf('contact') !== -1) {
+          window.trackEvent('quote_request_click', {
+            button_label: text,
+            destination: btn.getAttribute('href') || 'action'
+          });
+        }
+      });
+    });
+  }
+  initConversionTracking();
+
+  /* ==========================================================================
+     20. COOKIE CONSENT BANNER & PREFERENCES PANEL (Checklist Item 8)
+     ========================================================================== */
+  function initCookieConsent() {
+    var STORAGE_KEY = 'halfman_cookie_consent';
+    var savedConsent = null;
+    try {
+      savedConsent = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    } catch (e) {
+      savedConsent = null;
+    }
+
+    var modalHtml = 
+      '<div class="hm-cookie-modal-backdrop" id="hmCookieModal">' +
+        '<div class="hm-cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle">' +
+          '<div class="hm-modal-header">' +
+            '<h3 class="hm-modal-title" id="cookieModalTitle">Privacy & Cookie Preferences</h3>' +
+            '<button class="hm-modal-close" id="hmModalClose" aria-label="Close preferences">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div class="hm-modal-body">' +
+            '<div class="hm-pref-item">' +
+              '<div class="hm-pref-header">' +
+                '<span class="hm-pref-title">Strictly Necessary Cookies</span>' +
+                '<span class="hm-pref-status">Always Active</span>' +
+              '</div>' +
+              '<p class="hm-pref-desc">Essential for site navigation, security protocols, CAD model rendering integrity, and high-performance server delivery.</p>' +
+            '</div>' +
+            '<div class="hm-pref-item">' +
+              '<div class="hm-pref-header">' +
+                '<span class="hm-pref-title">Performance & Analytics</span>' +
+                '<label class="hm-switch">' +
+                  '<input type="checkbox" id="prefAnalytics" checked>' +
+                  '<span class="hm-slider"></span>' +
+                '</label>' +
+              '</div>' +
+              '<p class="hm-pref-desc">Helps us monitor website telemetry, page load speeds, and user journey analytics to optimize engineering resource delivery.</p>' +
+            '</div>' +
+            '<div class="hm-pref-item">' +
+              '<div class="hm-pref-header">' +
+                '<span class="hm-pref-title">Functionality & Preferences</span>' +
+                '<label class="hm-switch">' +
+                  '<input type="checkbox" id="prefFunctional" checked>' +
+                  '<span class="hm-slider"></span>' +
+                '</label>' +
+              '</div>' +
+              '<p class="hm-pref-desc">Remembers your interactive preferences, 3D die viewing angles, and inquiry draft states across sessions.</p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="hm-modal-footer">' +
+            '<button class="hm-cookie-btn hm-cookie-btn-secondary" id="savePreferences">Save Preferences</button>' +
+            '<button class="hm-cookie-btn hm-cookie-btn-primary" id="modalAcceptAll">Accept All</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    var bannerHtml =
+      '<div class="hm-cookie-banner" id="hmCookieBanner" role="region" aria-label="Cookie Consent">' +
+        '<div class="hm-cookie-inner">' +
+          '<div class="hm-cookie-text">' +
+            '<div class="hm-cookie-badge">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><circle cx="16" cy="15.5" r="1" fill="currentColor"/><circle cx="10" cy="16" r="1.2" fill="currentColor"/></svg>' +
+              'Compliance & Privacy Notice' +
+            '</div>' +
+            '<div class="hm-cookie-title">We prioritize your data engineering and privacy</div>' +
+            '<p class="hm-cookie-desc">' +
+              'Halfman Engineering uses essential cookies to ensure high-performance CAD and web experience, as well as optional analytical cookies to measure platform performance. Read our <a href="privacy-policy.html">Privacy Policy</a>.' +
+            '</p>' +
+          '</div>' +
+          '<div class="hm-cookie-actions">' +
+            '<button class="hm-cookie-btn hm-cookie-btn-text" id="openPreferences">Preferences</button>' +
+            '<button class="hm-cookie-btn hm-cookie-btn-secondary" id="declineOptional">Essential Only</button>' +
+            '<button class="hm-cookie-btn hm-cookie-btn-primary" id="acceptAllCookies">Accept All</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    document.body.insertAdjacentHTML('beforeend', bannerHtml + modalHtml);
+
+    var banner = document.getElementById('hmCookieBanner');
+    var modal = document.getElementById('hmCookieModal');
+    var prefAnalytics = document.getElementById('prefAnalytics');
+    var prefFunctional = document.getElementById('prefFunctional');
+
+    function saveAndClose(consentData) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(consentData));
+      } catch (e) {}
+      if (banner) banner.style.display = 'none';
+      if (modal) modal.classList.remove('open');
+      if (typeof window.showToast === 'function') {
+        window.showToast('Preferences Saved', 'Your privacy and cookie selections have been stored.', 'info', 3000);
+      }
+    }
+
+    if (!savedConsent) {
+      setTimeout(function () {
+        if (banner) banner.style.display = 'block';
+      }, 800);
+    }
+
+    var acceptAllBtn = document.getElementById('acceptAllCookies');
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', function () {
+        saveAndClose({
+          necessary: true,
+          analytics: true,
+          functional: true,
+          timestamp: new Date().toISOString()
+        });
+      });
+    }
+
+    var modalAcceptAll = document.getElementById('modalAcceptAll');
+    if (modalAcceptAll) {
+      modalAcceptAll.addEventListener('click', function () {
+        saveAndClose({
+          necessary: true,
+          analytics: true,
+          functional: true,
+          timestamp: new Date().toISOString()
+        });
+      });
+    }
+
+    var declineBtn = document.getElementById('declineOptional');
+    if (declineBtn) {
+      declineBtn.addEventListener('click', function () {
+        saveAndClose({
+          necessary: true,
+          analytics: false,
+          functional: false,
+          timestamp: new Date().toISOString()
+        });
+      });
+    }
+
+    var openPrefBtn = document.getElementById('openPreferences');
+    if (openPrefBtn) {
+      openPrefBtn.addEventListener('click', function () {
+        if (modal) modal.classList.add('open');
+      });
+    }
+
+    var closePrefBtn = document.getElementById('hmModalClose');
+    if (closePrefBtn) {
+      closePrefBtn.addEventListener('click', function () {
+        if (modal) modal.classList.remove('open');
+      });
+    }
+
+    var savePrefBtn = document.getElementById('savePreferences');
+    if (savePrefBtn) {
+      savePrefBtn.addEventListener('click', function () {
+        saveAndClose({
+          necessary: true,
+          analytics: prefAnalytics ? prefAnalytics.checked : true,
+          functional: prefFunctional ? prefFunctional.checked : true,
+          timestamp: new Date().toISOString()
+        });
+      });
+    }
+
+    document.querySelectorAll('#openCookieSettings, [data-cookie-settings]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (savedConsent) {
+          if (prefAnalytics) prefAnalytics.checked = !!savedConsent.analytics;
+          if (prefFunctional) prefFunctional.checked = !!savedConsent.functional;
+        }
+        if (modal) modal.classList.add('open');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieConsent);
+  } else {
+    initCookieConsent();
+  }
 })();

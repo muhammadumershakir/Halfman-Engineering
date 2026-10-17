@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,8 +26,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/chatbot.css">
-<!-- Favicon: replace with real Halfman Engineering mark -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%230a0e15'/%3E%3Ctext x='50%25' y='58%25' font-family='Arial' font-size='18' fill='%235B82FF' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="images/halfman logo.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -150,6 +150,11 @@
     <span class="hero-corner tl" aria-hidden="true"></span>
     <span class="hero-corner br" aria-hidden="true"></span>
     <div class="container hero-content">
+      <nav class="hm-breadcrumbs" aria-label="Breadcrumbs">
+        <span class="hm-breadcrumb-item"><a href="index.html">Home</a></span>
+        <span class="hm-breadcrumb-sep">/</span>
+        <span class="hm-breadcrumb-item active" aria-current="page">About Us</span>
+      </nav>
       <span class="hero-tag"><span class="dot"></span>About Halfman Engineering</span>
       <h1><span class="hero-line-break">Four Decades of</span> <span class="hero-line-break">Engineering Experience</span></h1>
       <p class="lede">With more than four decades of engineering experience, Halfman Engineering has built a strong reputation for quality, reliability, and precision in automotive component manufacturing and engineering solutions.</p>
@@ -425,6 +430,8 @@
       <p>&copy; <span data-year>2026</span> Halfman Engineering. All Rights Reserved.</p>
       <div class="legal-links">
         <a href="privacy-policy.html">Privacy Policy</a>
+        <span>•</span>
+        <a href="javascript:void(0)" id="openCookieSettings">Cookie Settings</a>
         <span>•</span>
         <span>Karachi, Pakistan</span>
       </div>

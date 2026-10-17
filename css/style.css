@@ -4596,6 +4596,66 @@ body {
     height: 220px;
     margin-top: 8px;
   }
+  .kh-service-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+  .kh-service-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  .kh-explore-btn {
+    white-space: nowrap !important;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .kh-explore-btn span {
+    white-space: nowrap !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .kh-service-card {
+    padding: 20px 16px;
+    row-gap: 14px;
+  }
+  .kh-service-header {
+    gap: 8px;
+  }
+  .kh-service-tag {
+    font-size: clamp(0.56rem, 2.4vw, 0.62rem);
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .kh-explore-btn {
+    padding: 5px 11px;
+    font-size: 0.72rem;
+    gap: 5px;
+  }
+  .kh-explore-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .kh-service-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .kh-explore-btn {
+    align-self: flex-end;
+  }
 }
 
 /* 5. 3D ROTATING PARTS PERSPECTIVE CAROUSEL */
@@ -6118,3 +6178,537 @@ body.nav-open {
     padding: 26px 20px;
   }
 }
+
+/* ==========================================================================
+   18. PREFERS-REDUCED-MOTION ACCESSIBILITY SUPPORT (Checklist Item 5)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ai-ambient-backdrop,
+  .ai-glow-orb,
+  .mfg-pulse-radar,
+  .mfg-scan-line,
+  .mfg-badge-pulse,
+  .hero-rotator-item,
+  .marquee-track,
+  .die-stage,
+  .floating-anim,
+  .pulse-anim,
+  .glow-anim,
+  .die-loader-ring,
+  .die-loader-pulse,
+  [data-aos] {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .marquee-inner {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   19. GLOBAL TOAST NOTIFICATION SYSTEM (Checklist Item 4)
+   ========================================================================== */
+.hm-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  max-width: 420px;
+  width: calc(100% - 48px);
+}
+
+.hm-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(14, 19, 31, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 4px solid var(--accent-bright, #5B82FF);
+  border-radius: 8px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(91, 130, 255, 0.15);
+  color: #F1F5F9;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.hm-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hm-toast-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.hm-toast-success {
+  border-left-color: #10B981;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.2);
+}
+.hm-toast-success .hm-toast-icon {
+  color: #10B981;
+}
+
+.hm-toast-error {
+  border-left-color: #EF4444;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(239, 68, 68, 0.2);
+}
+.hm-toast-error .hm-toast-icon {
+  color: #EF4444;
+}
+
+.hm-toast-info {
+  border-left-color: #5B82FF;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(91, 130, 255, 0.2);
+}
+.hm-toast-info .hm-toast-icon {
+  color: #5B82FF;
+}
+
+.hm-toast-content {
+  flex: 1;
+}
+
+.hm-toast-title {
+  font-weight: 700;
+  font-family: var(--font-head, 'Space Grotesk', sans-serif);
+  font-size: 0.94rem;
+  margin-bottom: 2px;
+  color: #FFFFFF;
+}
+
+.hm-toast-body {
+  color: #CBD5E1;
+  font-size: 0.88rem;
+}
+
+.hm-toast-close {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.hm-toast-close:hover {
+  color: #FFFFFF;
+}
+
+@media (max-width: 480px) {
+  .hm-toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+}
+
+/* ==========================================================================
+   20. COOKIE CONSENT BANNER & PREFERENCES PANEL (Checklist Item 8)
+   ========================================================================== */
+.hm-cookie-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+  z-index: 9999;
+  background: rgba(10, 14, 21, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(91, 130, 255, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 0 24px rgba(91, 130, 255, 0.12);
+  padding: 20px 24px;
+  display: none;
+  animation: cookieSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cookieSlideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.hm-cookie-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.hm-cookie-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.hm-cookie-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-bright, #5B82FF);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hm-cookie-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hm-cookie-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+  font-family: var(--font-head, 'Space Grotesk', sans-serif);
+}
+
+.hm-cookie-desc {
+  font-size: 0.86rem;
+  color: #94A3B8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.hm-cookie-desc a {
+  color: var(--accent-bright, #5B82FF);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.hm-cookie-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hm-cookie-btn {
+  padding: 9px 18px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.hm-cookie-btn-primary {
+  background: var(--accent-bright, #5B82FF);
+  color: #06090F;
+  border: 1px solid var(--accent-bright, #5B82FF);
+}
+.hm-cookie-btn-primary:hover {
+  background: #7396FF;
+  box-shadow: 0 0 16px rgba(91, 130, 255, 0.4);
+}
+
+.hm-cookie-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.hm-cookie-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+}
+
+.hm-cookie-btn-text {
+  background: transparent;
+  color: #94A3B8;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 9px 10px;
+}
+.hm-cookie-btn-text:hover {
+  color: #FFFFFF;
+}
+
+/* Cookie Preferences Modal */
+.hm-cookie-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.hm-cookie-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hm-cookie-modal {
+  background: #0A0E15;
+  border: 1px solid rgba(91, 130, 255, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), 0 0 32px rgba(91, 130, 255, 0.15);
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  transform: scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hm-cookie-modal-backdrop.open .hm-cookie-modal {
+  transform: scale(1);
+}
+
+.hm-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hm-modal-title {
+  font-family: var(--font-head, 'Space Grotesk', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.hm-modal-close {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+}
+.hm-modal-close:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hm-pref-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.hm-pref-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.hm-pref-title {
+  font-weight: 600;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+}
+
+.hm-pref-status {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #10B981;
+  text-transform: uppercase;
+}
+
+.hm-pref-desc {
+  font-size: 0.84rem;
+  color: #94A3B8;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.hm-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.hm-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.hm-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.hm-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.hm-switch input:checked + .hm-slider {
+  background-color: var(--accent-bright, #5B82FF);
+}
+
+.hm-switch input:checked + .hm-slider:before {
+  transform: translateX(20px);
+}
+
+.hm-switch input:disabled + .hm-slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hm-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   21. BREADCRUMBS NAVIGATION (Checklist Item 17)
+   ========================================================================== */
+.hm-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 20px 0;
+  list-style: none;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.hm-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #94A3B8;
+}
+
+.hm-breadcrumb-item a {
+  color: #94A3B8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.hm-breadcrumb-item a:hover {
+  color: var(--accent-bright, #5B82FF);
+}
+
+.hm-breadcrumb-item.active {
+  color: var(--accent-bright, #5B82FF);
+  font-weight: 600;
+}
+
+.hm-breadcrumb-sep {
+  color: #475569;
+}
+
+/* ==========================================================================
+   22. SKELETON LOADERS & EMPTY STATES (Checklist Item 3)
+   ========================================================================== */
+.skeleton-box {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.empty-state-box {
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(14, 19, 31, 0.4);
+  color: #94A3B8;
+}
+
+.empty-state-icon {
+  width: 44px;
+  height: 44px;
+  color: #64748B;
+  margin-bottom: 12px;
+}

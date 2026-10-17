@@ -37,7 +37,8 @@
   // Isometric view showing front, side, and vertical Y-separation
   var targetRotY = 0.58, targetRotX = 0.22;
   var currentRotY = 0.58, currentRotX = 0.22;
-  var autoRotate = true;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var autoRotate = !prefersReducedMotion;
   var autoRotateSpeed = 0.0016;
   var userInteractedTimeout = null;
   var isCycling = false;
