@@ -1,14 +1,547 @@
 /* ==========================================================================
-   HALFMAN ENGINEERING — shared site behaviour
-   Header state, mobile navigation, scroll reveal, stat counters,
-   FAQ accordion, product filter, contact form validation, image fallback.
+   HALFMAN ENGINEERING - High-Performance Interactive Experience Engine
+   - Ultra-Fast & Zero Lag (No Heavy WebGL or Canvas Loops)
+   - Real OEM Component Hero Spotlight Switcher
+   - 3D Perspective Rotating Parts Carousel (Coverflow Slider)
+   - Client Logos Infinite Marquee Controller
+   - Native Instant & High-Speed Scrolling (Zero Lag)
+   - Formspree AJAX Submission, FAQ Accordion, Mobile Nav
    ========================================================================== */
+
 (function () {
   'use strict';
 
+  document.documentElement.classList.add('js');
+
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Header & Back to top scroll state ---------- */
+
+
+  /* ==========================================================================
+     2. HERO OEM COMPONENT SPOTLIGHT SWITCHER
+     ========================================================================== */
+  function initHeroSpotlight() {
+    var stage = document.querySelector('.mfg-spotlight-card');
+    if (!stage) return;
+
+    var items = stage.querySelectorAll('.mfg-spotlight-item');
+    var tabs = stage.querySelectorAll('.mfg-tab-btn');
+    var badge = document.getElementById('mfgSpotlightBadge');
+    var specReadout = document.getElementById('mfgSpecReadout');
+    var coordReadout = document.getElementById('mfgCoordReadout');
+
+    if (!items.length || !tabs.length) return;
+
+    var spotData = [
+      {
+        badge: 'PART // TAIL-END-01',
+        spec: 'PROCESS: HYDRAULIC FORMING \u00b7 SPCC CR STEEL',
+        coord: 'SPEC // 500T HYD \u00b7 D2 STEEL \u00b7 \u00b10.01MM'
+      },
+      {
+        badge: 'PART // PEDAL-BRKT-R',
+        spec: 'PROCESS: ROBOTIC SPOT WELDING \u00b7 CRITICAL SAFETY',
+        coord: 'SPEC // RESISTANCE SPOT WELD \u00b7 \u00b10.01MM'
+      },
+      {
+        badge: 'TOOL // FORM-DIE-X4',
+        spec: 'PROCESS: CNC WIRE CUT & TOOLING \u00b7 D2 DIE STEEL',
+        coord: 'SPEC // PROGRESSIVE DIE \u00b7 100K STROKES'
+      }
+    ];
+
+    var currentIndex = 0;
+    var autoTimer = null;
+
+    function setSpot(index) {
+      currentIndex = index;
+      items.forEach(function (el, i) {
+        el.classList.toggle('active', i === index);
+      });
+      tabs.forEach(function (btn, i) {
+        btn.classList.toggle('active', i === index);
+        btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+
+      if (spotData[index]) {
+        if (badge) badge.textContent = spotData[index].badge;
+        if (specReadout) specReadout.textContent = spotData[index].spec;
+        if (coordReadout) coordReadout.textContent = spotData[index].coord;
+      }
+    }
+
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = parseInt(btn.getAttribute('data-target'), 10) || 0;
+        setSpot(target);
+        resetAuto();
+      });
+    });
+
+    function nextSpot() {
+      var next = (currentIndex + 1) % items.length;
+      setSpot(next);
+    }
+
+    function startAuto() {
+      if (prefersReducedMotion) return;
+      autoTimer = setInterval(nextSpot, 4200);
+    }
+
+    function stopAuto() {
+      if (autoTimer) clearInterval(autoTimer);
+    }
+
+    function resetAuto() {
+      stopAuto();
+      startAuto();
+    }
+
+    stage.addEventListener('mouseenter', stopAuto);
+    stage.addEventListener('mouseleave', startAuto);
+    startAuto();
+  }
+  initHeroSpotlight();
+
+  /* ==========================================================================
+     3. MANUFACTURED PORTFOLIO - NORMAL HIGH-DEFINITION SLIDER
+     ========================================================================== */
+  function initMfgNormalSlider() {
+    var slider = document.getElementById('mfgNormalSlider');
+    if (!slider) return;
+
+    var track = document.getElementById('mfgSliderTrack');
+    var originalSlides = Array.prototype.slice.call(slider.querySelectorAll('.mfg-slider-slide'));
+    var dots = slider.querySelectorAll('.mfg-dot');
+    var prevBtn = document.getElementById('mfgSliderPrev');
+    var nextBtn = document.getElementById('mfgSliderNext');
+
+    if (!track || originalSlides.length < 2) return;
+
+    var totalReal = originalSlides.length;
+    var isTransitioning = false;
+    var autoInterval = null;
+
+    // Clone first and last slide for true infinite continuous forward/backward loop
+    var firstClone = originalSlides[0].cloneNode(true);
+    firstClone.classList.add('mfg-slide-clone');
+    firstClone.setAttribute('aria-hidden', 'true');
+
+    var lastClone = originalSlides[totalReal - 1].cloneNode(true);
+    lastClone.classList.add('mfg-slide-clone');
+    lastClone.setAttribute('aria-hidden', 'true');
+
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, originalSlides[0]);
+
+    // Position indices:
+    // 0: lastClone (slide 2)
+    // 1: originalSlides[0] (slide 0)
+    // 2: originalSlides[1] (slide 1)
+    // 3: originalSlides[2] (slide 2)
+    // 4: firstClone (slide 0)
+    var currentPos = 1;
+
+    // Initialize track position at first real slide
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (currentPos * 100) + '%)';
+
+    function updateDots(realIdx) {
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === realIdx);
+      });
+    }
+    updateDots(0);
+
+    function moveTo(pos, animated) {
+      if (animated !== false) {
+        track.style.transition = 'transform 0.46s cubic-bezier(0.25, 1, 0.5, 1)';
+      } else {
+        track.style.transition = 'none';
+      }
+      currentPos = pos;
+      track.style.transform = 'translateX(-' + (currentPos * 100) + '%)';
+
+      var realIdx = (currentPos - 1 + totalReal) % totalReal;
+      updateDots(realIdx);
+    }
+
+    function nextSlide() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      moveTo(currentPos + 1, true);
+    }
+
+    function prevSlide() {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      moveTo(currentPos - 1, true);
+    }
+
+    track.addEventListener('transitionend', function (e) {
+      if (e.target !== track) return;
+      isTransitioning = false;
+
+      // If we reached the clone of first slide (past the end), seamlessly snap to real slide 0
+      if (currentPos >= totalReal + 1) {
+        track.style.transition = 'none';
+        currentPos = 1;
+        track.style.transform = 'translateX(-100%)';
+        track.offsetHeight; // force reflow
+      }
+      // If we reached clone of last slide (before the start), seamlessly snap to real slide 2
+      else if (currentPos <= 0) {
+        track.style.transition = 'none';
+        currentPos = totalReal;
+        track.style.transform = 'translateX(-' + (totalReal * 100) + '%)';
+        track.offsetHeight; // force reflow
+      }
+    });
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        nextSlide();
+        resetTimer();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        prevSlide();
+        resetTimer();
+      });
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        if (isTransitioning) return;
+        var idx = parseInt(dot.getAttribute('data-index'), 10);
+        isTransitioning = true;
+        moveTo(idx + 1, true);
+        resetTimer();
+      });
+    });
+
+    // Touch Swipe Support
+    var touchStartX = 0;
+    slider.addEventListener('touchstart', function (e) {
+      if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    slider.addEventListener('touchend', function (e) {
+      if (e.changedTouches.length === 1) {
+        var diff = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(diff) > 45) {
+          if (diff < 0) nextSlide();
+          else prevSlide();
+          resetTimer();
+        }
+      }
+    }, { passive: true });
+
+    // Autoplay with hover pause
+    function startTimer() {
+      if (prefersReducedMotion) return;
+      autoInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopTimer() {
+      if (autoInterval) clearInterval(autoInterval);
+    }
+
+    function resetTimer() {
+      stopTimer();
+      startTimer();
+    }
+
+    slider.addEventListener('mouseenter', stopTimer);
+    slider.addEventListener('mouseleave', startTimer);
+
+    startTimer();
+  }
+  initMfgNormalSlider();
+
+  /* ==========================================================================
+     4. GSAP KINETIC ENTRANCE SEQUENCING (LIGHTWEIGHT & FAST)
+     ========================================================================== */
+  if (typeof window.gsap !== 'undefined' && !prefersReducedMotion) {
+    try {
+      var gsap = window.gsap;
+
+      var heroWords = document.querySelectorAll('.hero-word');
+      if (heroWords.length) {
+        gsap.fromTo(heroWords,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.04, ease: 'power2.out', delay: 0.15 }
+        );
+      }
+
+      var heroTag = document.querySelector('.hero-tag');
+      if (heroTag) {
+        gsap.fromTo(heroTag, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.1 });
+      }
+
+      var heroLede = document.querySelector('.hero-futuristic .lede');
+      if (heroLede) {
+        gsap.fromTo(heroLede, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.45 });
+      }
+
+      var heroActions = document.querySelector('.hero-actions');
+      if (heroActions) {
+        gsap.fromTo(heroActions, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.55 });
+      }
+
+      var spotlightCard = document.querySelector('.mfg-spotlight-card');
+      if (spotlightCard) {
+        gsap.fromTo(spotlightCard, { opacity: 0, scale: 0.95, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.85, ease: 'power2.out', delay: 0.3 });
+      }
+    } catch (e) {
+      console.warn('GSAP sequence error:', e);
+    }
+  }
+
+  /* ==========================================================================
+     4b. KODERHIVE-STYLE SMOOTH SCROLL-TRIGGERED STACKING CARDS ANIMATION
+     ========================================================================== */
+  function initServiceCardsStacking() {
+    var grid = document.querySelector('.kh-services-grid');
+    if (!grid) return;
+
+    var cards = grid.querySelectorAll('.kh-service-card');
+    if (cards.length < 2) return;
+
+    // Gracefully handle reduced motion: ensure natural, fully-styled flow
+    if (prefersReducedMotion) return;
+
+    if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') {
+      return;
+    }
+
+    try {
+      var gsap = window.gsap;
+      var ScrollTrigger = window.ScrollTrigger;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Setup responsive stacking behavior
+      ScrollTrigger.matchMedia({
+        // Desktop & Tablet (>= 768px): Full smooth stacking with pinning, subtle scale & top offset
+        '(min-width: 768px)': function () {
+          var headerOffset = 90; // clear fixed header
+          var stackGap = 20;     // visible stacked top edge per card
+          var totalCards = cards.length;
+
+          cards.forEach(function (card, index) {
+            // Pin each card when it reaches its stack position
+            var topPosition = headerOffset + (index * stackGap);
+
+            ScrollTrigger.create({
+              trigger: card,
+              start: 'top top+=' + topPosition + 'px',
+              endTrigger: grid,
+              end: 'bottom bottom',
+              pin: true,
+              pinSpacing: false,
+              id: 'stack-pin-' + index,
+              invalidateOnRefresh: true
+            });
+
+            // As subsequent cards scroll over this card, scale it down subtly and adjust depth
+            if (index < totalCards - 1) {
+              var nextCard = cards[index + 1];
+              gsap.to(card, {
+                scale: 1 - ((totalCards - 1 - index) * 0.025),
+                filter: 'brightness(' + (1 - (0.08 * (index + 1))) + ')',
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: nextCard,
+                  start: 'top top+=' + (headerOffset + ((index + 1) * stackGap) + 120) + 'px',
+                  end: 'top top+=' + (headerOffset + ((index + 1) * stackGap)) + 'px',
+                  scrub: true,
+                  invalidateOnRefresh: true
+                }
+              });
+            }
+          });
+        }
+      });
+    } catch (err) {
+      console.warn('ScrollTrigger stacking cards initialization error:', err);
+    }
+  }
+
+  // Initialize once DOM is ready / scripts loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initServiceCardsStacking);
+  } else {
+    initServiceCardsStacking();
+  }
+
+  /* ==========================================================================
+     4c. GLOBAL SCROLL-TRIGGERED CARD REVEAL ANIMATION (Alternating Left/Right)
+     - Applies to all cards on every page
+     - Alternating left & right slide-in with subtle vertical lift & fade-in
+     - Row-by-row staggered entrance via ScrollTrigger.batch
+     - Clears GSAP transforms on complete so hover transforms work natively
+     - Reusable for existing and future cards
+     - Full prefers-reduced-motion accessibility support
+     ========================================================================== */
+  function initGlobalCardScrollReveal() {
+    if (prefersReducedMotion) return;
+    if (typeof window.gsap === 'undefined' || typeof window.ScrollTrigger === 'undefined') {
+      return;
+    }
+
+    try {
+      var gsap = window.gsap;
+      var ScrollTrigger = window.ScrollTrigger;
+      gsap.registerPlugin(ScrollTrigger);
+
+      var CARD_SELECTORS = [
+        '.product-card',
+        '.kh-service-card',
+        '.diff-card',
+        '.cert-card',
+        '.award-card',
+        '.featured-award',
+        '.contact-info-item',
+        '.kh-client-card',
+        '.mfg-matrix-card',
+        '.kh-roadmap-card',
+        '.process-card',
+        '.card',
+        '[data-card]'
+      ].join(', ');
+
+      var allCards = document.querySelectorAll(CARD_SELECTORS);
+      if (!allCards.length) return;
+
+      var validCards = [];
+      Array.prototype.forEach.call(allCards, function (card) {
+        if (card.classList.contains('platform-card')) return;
+        if (card.classList.contains('mfg-spotlight-card')) return;
+        if (card.closest('.platforms-marquee-wrap, .platforms-marquee-track, .mfg-normal-slider, .mfg-spotlight-card')) {
+          return;
+        }
+        validCards.push(card);
+      });
+
+      if (!validCards.length) return;
+
+      // Group cards by immediate parent to alternate directions within each grid/section
+      var parentGroups = [];
+      validCards.forEach(function (card) {
+        var parent = card.parentElement;
+        var group = null;
+        for (var i = 0; i < parentGroups.length; i++) {
+          if (parentGroups[i].parent === parent) {
+            group = parentGroups[i];
+            break;
+          }
+        }
+        if (!group) {
+          group = { parent: parent, cards: [] };
+          parentGroups.push(group);
+        }
+        group.cards.push(card);
+      });
+
+      // Assign alternating direction: even index -> 'left', odd index -> 'right'
+      parentGroups.forEach(function (group) {
+        group.cards.forEach(function (card, idx) {
+          card._revealDir = (idx % 2 === 0) ? 'left' : 'right';
+        });
+      });
+
+      var isMobile = window.innerWidth < 768;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+
+      // Pre-set cards below the initial trigger zone so there is no flash of unstyled content
+      validCards.forEach(function (card) {
+        var rect = card.getBoundingClientRect();
+        if (rect.top > vh * 0.88) {
+          var dirX = (card._revealDir === 'right') ? (isMobile ? 24 : 38) : (isMobile ? -24 : -38);
+          card._isPreset = true;
+          gsap.set(card, {
+            opacity: 0,
+            x: dirX,
+            y: isMobile ? 12 : 18
+          });
+        }
+      });
+
+      ScrollTrigger.batch(validCards, {
+        interval: 0.08,
+        batchMax: 4,
+        start: 'top 88%',
+        once: true,
+        onEnter: function (batch) {
+          var mobileNow = window.innerWidth < 768;
+          batch.forEach(function (card, batchIdx) {
+            var dirX = (card._revealDir === 'right') ? (mobileNow ? 24 : 38) : (mobileNow ? -24 : -38);
+            var liftY = mobileNow ? 12 : 18;
+            card.classList.add('card-animating');
+
+            if (card._isPreset) {
+              gsap.to(card, {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                duration: 0.75,
+                delay: batchIdx * 0.1,
+                ease: 'power2.out',
+                overwrite: 'auto',
+                onComplete: function () {
+                  gsap.set(card, { clearProps: 'transform,opacity' });
+                  card.classList.remove('card-animating');
+                  card.classList.add('card-revealed');
+                }
+              });
+            } else {
+              gsap.fromTo(card,
+                {
+                  opacity: 0,
+                  x: dirX,
+                  y: liftY
+                },
+                {
+                  opacity: 1,
+                  x: 0,
+                  y: 0,
+                  duration: 0.75,
+                  delay: batchIdx * 0.1,
+                  ease: 'power2.out',
+                  overwrite: 'auto',
+                  onComplete: function () {
+                    gsap.set(card, { clearProps: 'transform,opacity' });
+                    card.classList.remove('card-animating');
+                    card.classList.add('card-revealed');
+                  }
+                }
+              );
+            }
+          });
+        }
+      });
+    } catch (err) {
+      console.warn('Card scroll reveal initialization error:', err);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobalCardScrollReveal);
+  } else {
+    initGlobalCardScrollReveal();
+  }
+
+  window.addEventListener('load', function () {
+    if (typeof window.ScrollTrigger !== 'undefined') {
+      window.ScrollTrigger.refresh();
+    }
+  });
+
+  /* ==========================================================================
+     5. HEADER & BACK TO TOP SCROLL STATE
+     ========================================================================== */
   var header = document.querySelector('.site-header');
   var backToTop = document.querySelector('.back-to-top');
   if (header || backToTop) {
@@ -16,7 +549,7 @@
     var handleScroll = function () {
       var scrollY = window.scrollY;
       if (header) header.classList.toggle('is-scrolled', scrollY > 24);
-      if (backToTop) backToTop.classList.toggle('show', scrollY > 700);
+      if (backToTop) backToTop.classList.toggle('show', scrollY > 650);
       scrollTicking = false;
     };
     handleScroll();
@@ -27,13 +560,16 @@
       }
     }, { passive: true });
   }
+
   if (backToTop) {
     backToTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     });
   }
 
-  /* ---------- Mobile navigation ---------- */
+  /* ==========================================================================
+     6. MOBILE NAVIGATION
+     ========================================================================== */
   var navToggle = document.querySelector('.nav-toggle');
   var navClose = document.querySelector('.nav-panel-close');
   var navPanel = document.querySelector('.nav-panel');
@@ -43,29 +579,23 @@
   function openNav() {
     lastFocused = document.activeElement;
     body.classList.add('nav-open');
-    navToggle.setAttribute('aria-expanded', 'true');
-    navPanel.removeAttribute('hidden');
-    var firstLink = navPanel.querySelector('a, button');
-    if (firstLink) firstLink.focus();
-    document.addEventListener('keydown', trapKeydown);
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
+    if (navPanel) {
+      navPanel.removeAttribute('hidden');
+      var firstLink = navPanel.querySelector('a, button');
+      if (firstLink) firstLink.focus();
+    }
   }
+
   function closeNav() {
     body.classList.remove('nav-open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    document.removeEventListener('keydown', trapKeydown);
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
     setTimeout(function () {
-      if (!body.classList.contains('nav-open')) navPanel.setAttribute('hidden', '');
-    }, 340);
+      if (!body.classList.contains('nav-open') && navPanel) {
+        navPanel.setAttribute('hidden', '');
+      }
+    }, 320);
     if (lastFocused) lastFocused.focus();
-  }
-  function trapKeydown(e) {
-    if (e.key === 'Escape') { closeNav(); return; }
-    if (e.key !== 'Tab') return;
-    var focusable = navPanel.querySelectorAll('a, button');
-    if (!focusable.length) return;
-    var first = focusable[0], last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
   if (navToggle && navPanel) {
@@ -75,48 +605,40 @@
     });
     if (navClose) navClose.addEventListener('click', closeNav);
     navPanel.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', closeNav);
+      if (!a.classList.contains('nav-dropdown-toggle')) {
+        a.addEventListener('click', closeNav);
+      }
     });
   }
 
-  /* ---------- Nav Dropdown (desktop & mobile) ---------- */
+  /* ==========================================================================
+     7. NAV DROPDOWN (DESKTOP & MOBILE)
+     ========================================================================== */
   document.querySelectorAll('.nav-dropdown').forEach(function (dropdown) {
     var toggle = dropdown.querySelector('.nav-dropdown-toggle');
-    var menu = dropdown.querySelector('.nav-dropdown-menu');
-    var arrow = dropdown.querySelector('.nav-dropdown-toggle svg');
-    if (!toggle || !menu) return;
+    if (!toggle) return;
 
-    if (arrow) {
-      arrow.addEventListener('click', function (e) {
-        if (window.innerWidth <= 860) {
-          e.preventDefault();
-          e.stopPropagation();
-          var isOpen = dropdown.classList.toggle('nav-dropdown-open');
-          toggle.setAttribute('aria-expanded', isOpen);
-        }
-      });
-    }
+    toggle.addEventListener('click', function (e) {
+      var isMobileNav = dropdown.closest('.nav-panel') !== null;
+      if (isMobileNav || window.innerWidth <= 860) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = dropdown.classList.toggle('nav-dropdown-open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+    });
 
-    // Close dropdown when clicking outside on mobile
     document.addEventListener('click', function (e) {
-      if (window.innerWidth <= 860 && !dropdown.contains(e.target)) {
+      if ((window.innerWidth <= 860 || dropdown.closest('.nav-panel')) && !dropdown.contains(e.target)) {
         dropdown.classList.remove('nav-dropdown-open');
         toggle.setAttribute('aria-expanded', 'false');
       }
     });
   });
-  // Close mobile dropdowns when mobile nav closes
-  var originalCloseNav = closeNav;
-  closeNav = function () {
-    document.querySelectorAll('.nav-dropdown').forEach(function (dd) {
-      dd.classList.remove('nav-dropdown-open');
-      var t = dd.querySelector('.nav-dropdown-toggle');
-      if (t) t.setAttribute('aria-expanded', 'false');
-    });
-    originalCloseNav();
-  };
 
-  /* ---------- Scroll reveal ---------- */
+  /* ==========================================================================
+     8. SCROLL REVEAL (INTERSECTION OBSERVER)
+     ========================================================================== */
   var revealEls = document.querySelectorAll('[data-reveal], [data-reveal-group]');
   if (revealEls.length) {
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
@@ -129,12 +651,14 @@
             io.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+      }, { threshold: 0.1, rootMargin: '0px 0px -4% 0px' });
       revealEls.forEach(function (el) { io.observe(el); });
     }
   }
 
-  /* ---------- Stat counters ---------- */
+  /* ==========================================================================
+     9. STAT COUNTERS
+     ========================================================================== */
   var statNums = document.querySelectorAll('.stat .num[data-count-to]');
   if (statNums.length && !prefersReducedMotion && 'IntersectionObserver' in window) {
     var counted = new WeakSet();
@@ -144,9 +668,10 @@
         counted.add(entry.target);
         animateCount(entry.target);
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.35 });
     statNums.forEach(function (el) { statIo.observe(el); });
   }
+
   function animateCount(el) {
     var target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
     var suffixEl = el.querySelector('.plus');
@@ -167,7 +692,9 @@
     requestAnimationFrame(step);
   }
 
-  /* ---------- FAQ accordion ---------- */
+  /* ==========================================================================
+     10. FAQ ACCORDION
+     ========================================================================== */
   document.querySelectorAll('.faq-item').forEach(function (item) {
     var q = item.querySelector('.faq-q');
     var a = item.querySelector('.faq-a');
@@ -176,226 +703,333 @@
       var isOpen = item.getAttribute('data-open') === 'true';
       item.closest('.faq-list').querySelectorAll('.faq-item').forEach(function (other) {
         other.setAttribute('data-open', 'false');
-        other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+        var oq = other.querySelector('.faq-q');
+        if (oq) oq.setAttribute('aria-expanded', 'false');
       });
       item.setAttribute('data-open', isOpen ? 'false' : 'true');
       q.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
     });
   });
 
-  /* ---------- Product filter ---------- */
+  /* ==========================================================================
+     11. PRODUCT FILTER
+     ========================================================================== */
   var filterBar = document.querySelector('[data-filter-bar]');
   if (filterBar) {
-    var buttons = filterBar.querySelectorAll('.filter-btn');
-    var cards = document.querySelectorAll('[data-product-grid] .product-card');
+    var filterButtons = filterBar.querySelectorAll('.filter-btn');
+    var productCards = document.querySelectorAll('[data-product-grid] .product-card');
     var emptyState = document.querySelector('[data-filter-empty]');
-    buttons.forEach(function (btn) {
+    filterButtons.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        buttons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+        filterButtons.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
         btn.setAttribute('aria-pressed', 'true');
         var filter = btn.getAttribute('data-filter');
         var visibleCount = 0;
-        cards.forEach(function (card) {
+        productCards.forEach(function (card) {
           var match = filter === 'all' || card.getAttribute('data-category') === filter;
           card.style.display = match ? '' : 'none';
           if (match) visibleCount++;
         });
         if (emptyState) emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
-      });
-    });
-  }
-
-  /* ---------- Product image fallback (branded placeholder on error) ---------- */
-  document.querySelectorAll('[data-product-grid] .product-media img, [data-product-grid] .product-img-wrap img').forEach(function (img) {
-    img.addEventListener('error', function () {
-      var card = img.closest('.product-card');
-      var info = card ? (card.querySelector('.product-info h3') || card.querySelector('.product-name')) : null;
-      var label = info ? info.textContent.trim() : 'Product';
-      img.src = fallbackSVG(label);
-      img.classList.add('img-fallback-svg');
-    }, { once: true });
-  });
-
-  /* ---------- Contact form validation ---------- */
-var form = document.querySelector('[data-contact-form]');
-
-if (form) {
-  var statusBox = form.querySelector('.form-status');
-  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  function setFieldError(field, message) {
-    var wrap = field.closest('.field');
-    var errorEl = wrap.querySelector('.field-error');
-
-    if (message) {
-      wrap.setAttribute('data-invalid', 'true');
-      if (errorEl) errorEl.textContent = message;
-      field.setAttribute('aria-invalid', 'true');
-    } else {
-      wrap.setAttribute('data-invalid', 'false');
-      if (errorEl) errorEl.textContent = '';
-      field.removeAttribute('aria-invalid');
-    }
-  }
-
-  function validateField(field) {
-    var value = field.value.trim();
-
-    if (field.hasAttribute('required') && !value) {
-      setFieldError(field, 'This field is required.');
-      return false;
-    }
-
-    if (field.type === 'email' && value && !emailPattern.test(value)) {
-      setFieldError(field, 'Please enter a valid email address.');
-      return false;
-    }
-
-    setFieldError(field, '');
-    return true;
-  }
-
-  form.querySelectorAll('input, textarea').forEach(function (field) {
-    field.addEventListener('blur', function () {
-      validateField(field);
-    });
-    field.addEventListener('input', function () {
-      if (field.closest('.field').getAttribute('data-invalid') === 'true') {
-        validateField(field);
-      }
-    });
-  });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    var fields = form.querySelectorAll('input, textarea');
-    var valid = true;
-
-    fields.forEach(function (field) {
-      if (!validateField(field)) {
-        valid = false;
-      }
-    });
-
-    var statusText = statusBox.querySelector('span');
-
-    statusBox.classList.remove('show', 'success', 'error');
-
-    if (!valid) {
-      statusText.textContent =
-        'Please correct the highlighted fields before submitting.';
-
-      statusBox.classList.add('show', 'error');
-
-      var firstInvalid = form.querySelector('[aria-invalid="true"]');
-
-      if (firstInvalid) {
-        firstInvalid.focus();
-      }
-
-      return;
-    }
-
-    var submitButton = form.querySelector('button[type="submit"]');
-    var originalButtonText = submitButton
-      ? submitButton.innerHTML
-      : '';
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.setAttribute('aria-busy', 'true');
-    }
-
-    statusText.textContent = 'Sending your inquiry...';
-    statusBox.classList.add('show');
-
-    var formData = new FormData(form);
-    var jsonData = {};
-    formData.forEach(function (value, key) {
-      jsonData[key] = value;
-    });
-
-    fetch(form.action, {
-      method: 'POST',
-      body: JSON.stringify(jsonData),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
-      .then(function (res) {
-        return res.json().then(function (data) {
-          if (!res.ok) {
-            var msg = (data && data.errors && data.errors.length)
-              ? data.errors.map(function (e) { return e.message; }).join(', ')
-              : 'Unable to send your inquiry. Please try again.';
-            throw new Error(msg);
-          }
-          return data;
-        });
-      })
-      .then(function () {
-        statusText.textContent =
-          'Thank you — your inquiry has been sent successfully. Our team will get back to you shortly.';
-
-        statusBox.classList.remove('error');
-        statusBox.classList.add('show', 'success');
-
-        form.reset();
-
-        fields.forEach(function (field) {
-          setFieldError(field, '');
-        });
-      })
-      .catch(function (error) {
-        statusText.textContent =
-          error.message ||
-          'Unable to send your inquiry. Please try again.';
-
-        statusBox.classList.remove('success');
-        statusBox.classList.add('show', 'error');
-      })
-      .finally(function () {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.removeAttribute('aria-busy');
-          submitButton.innerHTML = originalButtonText;
+        if (typeof window.ScrollTrigger !== 'undefined') {
+          window.ScrollTrigger.refresh();
         }
       });
     });
   }
-    
 
-  /* ---------- Image fallback (branded placeholder on load failure) ---------- */
+  /* ==========================================================================
+     12. BRANDED SVG IMAGE FALLBACK
+     ========================================================================== */
   function fallbackSVG(label) {
-    var safeLabel = (label || 'Image Placeholder').toString();
+    var safeLabel = (label || 'Precision Component').toString();
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">' +
-      '<rect width="800" height="600" fill="#0f1520"/>' +
-      '<defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">' +
-      '<path d="M40 0H0V40" fill="none" stroke="#1c2431" stroke-width="1"/></pattern></defs>' +
-      '<rect width="800" height="600" fill="url(#g)"/>' +
-      '<path d="M40 40H120M40 40V120" stroke="#3E6BFF" stroke-width="2" fill="none" opacity="0.6"/>' +
-      '<path d="M760 560H680M760 560V480" stroke="#3E6BFF" stroke-width="2" fill="none" opacity="0.6"/>' +
-      '<circle cx="400" cy="270" r="34" fill="none" stroke="#5c6577" stroke-width="2"/>' +
-      '<path d="M400 240v-16M400 300v16M370 270h-16M430 270h16" stroke="#5c6577" stroke-width="2"/>' +
-      '<text x="400" y="360" font-family="Arial, sans-serif" font-size="17" fill="#8891a1" text-anchor="middle" letter-spacing="1">' +
+      '<rect width="800" height="600" fill="#090e18"/>' +
+      '<path d="M40 40H120M40 40V120" stroke="#2e62ff" stroke-width="2" fill="none" opacity="0.6"/>' +
+      '<path d="M760 560H680M760 560V480" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.6"/>' +
+      '<circle cx="400" cy="270" r="36" fill="none" stroke="#2e62ff" stroke-width="2"/>' +
+      '<text x="400" y="360" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#c5d5ec" text-anchor="middle">' +
       escapeXML(safeLabel) + '</text>' +
       '</svg>';
     return 'data:image/svg+xml,' + encodeURIComponent(svg);
   }
+
   function escapeXML(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
+
   document.querySelectorAll('img[data-fallback]').forEach(function (img) {
     img.addEventListener('error', function handler() {
       img.removeEventListener('error', handler);
       img.src = fallbackSVG(img.getAttribute('data-fallback'));
-      img.classList.add('img-fallback-svg');
     });
   });
 
-  /* ---------- Footer year ---------- */
+  /* ==========================================================================
+     13. CONTACT FORM VALIDATION & FORMSPREE SUBMISSION
+     ========================================================================== */
+  var form = document.querySelector('[data-contact-form]');
+  if (form) {
+    var statusBox = form.querySelector('.form-status');
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function setFieldError(field, message) {
+      var wrap = field.closest('.field');
+      if (!wrap) return;
+      var errorEl = wrap.querySelector('.field-error');
+
+      if (message) {
+        wrap.setAttribute('data-invalid', 'true');
+        if (errorEl) errorEl.textContent = message;
+        field.setAttribute('aria-invalid', 'true');
+      } else {
+        wrap.setAttribute('data-invalid', 'false');
+        if (errorEl) errorEl.textContent = '';
+        field.removeAttribute('aria-invalid');
+      }
+    }
+
+    function validateField(field) {
+      var value = field.value.trim();
+      if (field.hasAttribute('required') && !value) {
+        setFieldError(field, 'This field is required.');
+        return false;
+      }
+      if (field.type === 'email' && value && !emailPattern.test(value)) {
+        setFieldError(field, 'Please enter a valid business email address.');
+        return false;
+      }
+      setFieldError(field, '');
+      return true;
+    }
+
+    form.querySelectorAll('input, textarea').forEach(function (field) {
+      field.addEventListener('blur', function () { validateField(field); });
+      field.addEventListener('input', function () {
+        if (field.closest('.field') && field.closest('.field').getAttribute('data-invalid') === 'true') {
+          validateField(field);
+        }
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fields = form.querySelectorAll('input, textarea');
+      var valid = true;
+      fields.forEach(function (field) {
+        if (!validateField(field)) valid = false;
+      });
+
+      var statusText = statusBox ? statusBox.querySelector('span') : null;
+      if (statusBox) statusBox.classList.remove('show', 'success', 'error');
+
+      if (!valid) {
+        if (statusText) statusText.textContent = 'Please correct the highlighted fields before submitting.';
+        if (statusBox) statusBox.classList.add('show', 'error');
+        var firstInvalid = form.querySelector('[aria-invalid="true"]');
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      var submitButton = form.querySelector('button[type="submit"]');
+      var originalButtonText = submitButton ? submitButton.innerHTML : '';
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.setAttribute('aria-busy', 'true');
+      }
+
+      if (statusText) statusText.textContent = 'Transmitting engineering inquiry...';
+      if (statusBox) statusBox.classList.add('show');
+
+      var formData = new FormData(form);
+      var jsonData = {};
+      formData.forEach(function (val, key) { jsonData[key] = val; });
+
+      fetch(form.action, {
+        method: 'POST',
+        body: JSON.stringify(jsonData),
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error('Unable to dispatch your inquiry. Please try again.');
+            return data;
+          });
+        })
+        .then(function () {
+          if (statusText) statusText.textContent = 'Inquiry transmitted successfully. Our engineering team will review your specifications shortly.';
+          if (statusBox) {
+            statusBox.classList.remove('error');
+            statusBox.classList.add('show', 'success');
+          }
+          form.reset();
+          fields.forEach(function (f) { setFieldError(f, ''); });
+        })
+        .catch(function (err) {
+          if (statusText) statusText.textContent = err.message || 'Transmission failed. Please reach out via email.';
+          if (statusBox) {
+            statusBox.classList.remove('success');
+            statusBox.classList.add('show', 'error');
+          }
+        })
+        .finally(function () {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.removeAttribute('aria-busy');
+            submitButton.innerHTML = originalButtonText;
+          }
+        });
+    });
+  }
+
+  /* ==========================================================================
+     14. INTERACTIVE PRODUCTION ROADMAP (NEXGEN STYLE)
+     ========================================================================== */
+  var roadmaps = document.querySelectorAll('.kh-roadmap-container');
+  if (roadmaps.length > 0) {
+    Array.prototype.forEach.call(roadmaps, function (rm) {
+      var bar = rm.querySelector('.kh-timeline-bar');
+      var progress = rm.querySelector('.kh-timeline-progress');
+      var dots = rm.querySelectorAll('.kh-dot');
+      var cards = rm.querySelectorAll('.kh-roadmap-card');
+      var indicators = rm.querySelectorAll('.kh-step-indicator');
+
+      function layoutDots() {
+        if (!cards.length || !dots.length) return;
+        var rmRect = rm.getBoundingClientRect();
+        Array.prototype.forEach.call(cards, function (card, idx) {
+          var dot = dots[idx];
+          if (dot) {
+            var cardRect = card.getBoundingClientRect();
+            var cardCenterY = (cardRect.top - rmRect.top) + (cardRect.height / 2);
+            dot.style.top = cardCenterY + 'px';
+          }
+        });
+      }
+
+      function updateRoadmap() {
+        if (!bar || !progress) return;
+        var barRect = bar.getBoundingClientRect();
+        var triggerY = window.innerHeight * 0.55;
+        var currentH = triggerY - barRect.top;
+        currentH = Math.max(0, Math.min(barRect.height, currentH));
+        progress.style.height = currentH + 'px';
+
+        var activeIdx = 0;
+        Array.prototype.forEach.call(dots, function (dot, idx) {
+          var dotRect = dot.getBoundingClientRect();
+          if (triggerY >= dotRect.top) {
+            dot.classList.add('active');
+            activeIdx = idx;
+          } else if (idx > 0) {
+            dot.classList.remove('active');
+          }
+        });
+
+        Array.prototype.forEach.call(indicators, function (ind, idx) {
+          if (idx === activeIdx) ind.classList.add('active');
+          else ind.classList.remove('active');
+        });
+      }
+
+      Array.prototype.forEach.call(indicators, function (ind, idx) {
+        ind.addEventListener('click', function () {
+          var targetCard = cards[idx];
+          if (targetCard) {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
+
+      window.addEventListener('scroll', updateRoadmap, { passive: true });
+      window.addEventListener('resize', function () {
+        layoutDots();
+        updateRoadmap();
+      });
+
+      setTimeout(function () {
+        layoutDots();
+        updateRoadmap();
+      }, 120);
+    });
+  }
+
+  /* ==========================================================================
+     16. DYNAMIC KINETIC HEADLINE ROTATOR (NexGen Style 3D Headline)
+     ========================================================================== */
+  function initHeroRotator() {
+    var heroRotator = document.getElementById('heroRotator');
+    if (!heroRotator || prefersReducedMotion) return;
+
+    var rawWords = heroRotator.getAttribute('data-words');
+    var wordsList = [];
+    try {
+      wordsList = rawWords ? JSON.parse(rawWords) : [];
+    } catch(e) {
+      wordsList = ["Built for Automotive.", "30+ Yrs Pak Suzuki Partner.", "±0.01mm Precision Tooling.", "High-Tonnage Stamping.", "Certified Spot Welding."];
+    }
+    if (!wordsList || !wordsList.length) {
+      wordsList = ["Built for Automotive.", "30+ Yrs Pak Suzuki Partner.", "±0.01mm Precision Tooling.", "High-Tonnage Stamping.", "Certified Spot Welding."];
+    }
+
+    var currentWordIndex = 0;
+    var rotatorInterval = null;
+    var isHoveringRotator = false;
+
+    function cycleWord() {
+      if (isHoveringRotator) return;
+      currentWordIndex = (currentWordIndex + 1) % wordsList.length;
+      var nextWord = wordsList[currentWordIndex];
+
+      // Step 1: Slide current word up & out with 3D tilt
+      heroRotator.classList.add('swap-out');
+
+      setTimeout(function() {
+        // Step 2: Swap text & prepare at bottom
+        heroRotator.textContent = nextWord;
+        heroRotator.classList.remove('swap-out');
+        heroRotator.classList.add('swap-in-prep');
+
+        // Force layout reflow
+        void heroRotator.offsetHeight;
+
+        // Step 3: Animate in from bottom with liquid cyan sheen
+        heroRotator.classList.remove('swap-in-prep');
+        heroRotator.classList.add('swap-in');
+
+        setTimeout(function() {
+          heroRotator.classList.remove('swap-in');
+        }, 380);
+      }, 350);
+    }
+
+    rotatorInterval = setInterval(cycleWord, 3200);
+
+    heroRotator.addEventListener('mouseenter', function() {
+      isHoveringRotator = true;
+    });
+    heroRotator.addEventListener('mouseleave', function() {
+      isHoveringRotator = false;
+    });
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        if (rotatorInterval) clearInterval(rotatorInterval);
+      } else {
+        rotatorInterval = setInterval(cycleWord, 3200);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroRotator);
+  } else {
+    initHeroRotator();
+  }
+
+  /* ==========================================================================
+     17. FOOTER COPYRIGHT YEAR
+     ========================================================================== */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();
   });

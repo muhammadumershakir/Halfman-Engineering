@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 130" width="220" height="130">
+  <defs>
+    <radialGradient id="fawBlue" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1E73BE"/>
+      <stop offset="60%" stop-color="#0A468C"/>
+      <stop offset="100%" stop-color="#042654"/>
+    </radialGradient>
+    <linearGradient id="chromeRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8ECEF"/>
+      <stop offset="50%" stop-color="#B0B9C2"/>
+      <stop offset="100%" stop-color="#E8ECEF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Chrome Rim -->
+  <ellipse cx="110" cy="65" rx="98" ry="58" fill="url(#chromeRing)"/>
+  <!-- Inner Blue Gradient Core -->
+  <ellipse cx="110" cy="65" rx="93" ry="53" fill="url(#fawBlue)"/>
+
+  <!-- Stylized Winged 1 Badge (Silver/White & Chrome) -->
+  <!-- Left Wing Triple Bars -->
+  <path d="M 38 48 L 94 48 L 94 56 L 44 56 Z" fill="#FFFFFF"/>
+  <path d="M 46 62 L 94 62 L 94 70 L 52 70 Z" fill="#FFFFFF"/>
+  <path d="M 54 76 L 94 76 L 94 84 L 60 84 Z" fill="#FFFFFF"/>
+
+  <!-- Right Wing Triple Bars -->
+  <path d="M 182 48 L 126 48 L 126 56 L 176 56 Z" fill="#FFFFFF"/>
+  <path d="M 174 62 L 126 62 L 126 70 L 168 70 Z" fill="#FFFFFF"/>
+  <path d="M 166 76 L 126 76 L 126 84 L 160 84 Z" fill="#FFFFFF"/>
+
+  <!-- Central Bold Numeral 1 -->
+  <path d="M 100 36 L 118 36 L 118 90 L 126 90 L 126 96 L 94 96 L 94 90 L 102 90 L 102 44 L 95 48 L 92 41 Z" fill="#FFFFFF"/>
+  <path d="M 104 38 L 116 38 L 116 88 L 122 88 L 122 94 L 98 94 L 98 88 L 104 88 Z" fill="#0A2C5C"/>
+</svg>

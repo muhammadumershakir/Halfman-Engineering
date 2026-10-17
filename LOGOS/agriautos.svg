@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 76" width="340" height="76">
+  <!-- Agriautos Geometric 'A' Emblem -->
+  <g transform="translate(4, 2)">
+    <!-- Slanted Green Leg -->
+    <polygon points="0,68 54,68 88,14 34,14" fill="#00A651"/>
+    <!-- Vertical Green Top Block -->
+    <polygon points="56,14 88,14 88,40 56,40" fill="#009245"/>
+    <!-- Orange/Gold Base Core -->
+    <polygon points="36,68 88,68 88,42 54,42" fill="#F7931E"/>
+  </g>
+
+  <!-- Typography: agriauto -->
+  <text x="108" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="44" letter-spacing="-1" fill="#141414">agriauto</text>
+  <!-- Typography: INDUSTRIES LIMITED -->
+  <text x="110" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial', sans-serif" font-weight="700" font-size="13" letter-spacing="3.8" fill="#2A2A2A">INDUSTRIES LIMITED</text>
+</svg>

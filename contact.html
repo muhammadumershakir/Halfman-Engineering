@@ -5,24 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Halfman Engineering | Automotive Manufacturing Pakistan</title>
 <meta name="description" content="Get in touch with Halfman Engineering for CNC machining, tooling, die designing & tooling, fabrication and automotive parts manufacturing inquiries. Based in Karachi, Pakistan, serving international clients.">
-<link rel="canonical" href="https://www.halfmanengineering.com/contact.html">
+<link rel="canonical" href="https://halfman-engineering.com/contact.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Halfman Engineering">
 <meta property="og:title" content="Contact Halfman Engineering | Automotive Manufacturing Pakistan">
 <meta property="og:description" content="Have a component, tooling, machining or fabrication requirement? Get in touch with Halfman Engineering.">
-<meta property="og:url" content="https://www.halfmanengineering.com/contact.html">
-<meta property="og:image" content="https://www.halfmanengineering.com/images/cnc.jpeg">
+<meta property="og:url" content="https://halfman-engineering.com/contact.html">
+<meta property="og:image" content="https://halfman-engineering.com/images/cnc.jpeg">
 <meta property="og:image:alt" content="Halfman Engineering CNC Machining Facility in Karachi">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact Halfman Engineering | Automotive Manufacturing Pakistan">
 <meta name="twitter:description" content="Get in touch with Halfman Engineering for CNC machining, tooling, and automotive parts manufacturing inquiries.">
-<meta name="twitter:image" content="https://www.halfmanengineering.com/images/cnc.jpeg">
+<meta name="twitter:image" content="https://halfman-engineering.com/images/cnc.jpeg">
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/chatbot.css">
 <!-- Favicon: replace with real Halfman Engineering mark -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%230a0e15'/%3E%3Ctext x='50%25' y='58%25' font-family='Arial' font-size='18' fill='%235B82FF' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
 <script type="application/ld+json">
@@ -32,7 +33,7 @@
     "@type": "ContactPage",
     "name": "Contact Halfman Engineering",
     "description": "Contact details and quotation request form for Halfman Engineering, precision automotive parts manufacturer in Karachi, Pakistan.",
-    "url": "https://www.halfmanengineering.com/contact.html",
+    "url": "https://halfman-engineering.com/contact.html",
     "mainEntity": {
       "@type": "AutoPartsManufacturer",
       "name": "Halfman Engineering",
@@ -55,13 +56,13 @@
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.halfmanengineering.com/"
+        "item": "https://halfman-engineering.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Contact",
-        "item": "https://www.halfmanengineering.com/contact.html"
+        "item": "https://halfman-engineering.com/contact.html"
       }
     ]
   }
@@ -125,16 +126,15 @@
   <!-- ================= HERO ================= -->
   <section class="hero page-hero page-hero-compact">
     <div class="hero-media">
-      <!-- Replace with a real Halfman Engineering facility photograph -->
-      <img decoding="async" src="images/press shop 4.jfif"
-           data-fallback="Contact Halfman Engineering — Automotive Parts"
-           alt="Automotive parts at Halfman Engineering" loading="eager" fetchpriority="high">
+      <img decoding="async" src="images/welding-shop-2-clean.jpg"
+           data-fallback="Contact Halfman Engineering — Let's Build Something Precise"
+           alt="Precision automotive fabrication at Halfman Engineering" loading="eager" fetchpriority="high">
     </div>
     <span class="hero-corner tl" aria-hidden="true"></span>
     <span class="hero-corner br" aria-hidden="true"></span>
     <div class="container hero-content">
       <span class="hero-tag"><span class="dot"></span>Contact</span>
-      <h1>Let's Build Something Precise.</h1>
+      <h1><span class="hero-line-break">Let's Build</span> <span class="hero-line-break">Something Precise.</span></h1>
       <p class="lede">Have a component, tooling, machining or fabrication requirement? Get in touch with Halfman Engineering.</p>
     </div>
   </section>
@@ -253,6 +253,7 @@
           <li><a href="products.html">Products</a></li>
           <li><a href="awards.html">Awards</a></li>
           <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -278,7 +279,11 @@
     </div>
     <div class="footer-bottom">
       <p>&copy; <span data-year>2026</span> Halfman Engineering. All Rights Reserved.</p>
-      <div class="legal-links"><span>Plot No. C-I/60-62, Sector 12-C, North Karachi Industrial Area, Karachi, Pakistan</span></div>
+      <div class="legal-links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <span>•</span>
+        <span>Karachi, Pakistan</span>
+      </div>
     </div>
   </div>
 </footer>
@@ -287,6 +292,9 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/chatbot.js" defer></script>
 </body>
 </html>

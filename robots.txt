@@ -1,6 +1,6 @@
-# robots.txt for https://www.halfmanengineering.com/
+# robots.txt for https://halfman-engineering.com/
 User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://www.halfmanengineering.com/sitemap.xml
+Sitemap: https://halfman-engineering.com/sitemap.xml
