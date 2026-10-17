@@ -3473,7 +3473,6 @@ body.page-products .page-hero .hero-media {
 
 .page-hero .hero-media img,
 .page-hero-compact .hero-media img,
-body.page-services .page-hero .hero-media img,
 body.page-products .page-hero .hero-media img {
   width: 100% !important;
   height: 100% !important;
@@ -3486,7 +3485,6 @@ body.page-products .page-hero .hero-media img {
 
 .page-hero .hero-media::after,
 .page-hero-compact .hero-media::after,
-body.page-services .page-hero .hero-media::after,
 body.page-products .page-hero .hero-media::after {
   content: '' !important;
   position: absolute !important;
@@ -3504,6 +3502,62 @@ body.page-products .page-hero .hero-media::after {
     ) !important;
   pointer-events: none !important;
   z-index: 1 !important;
+}
+
+/* Dedicated hero presentation for shearing.jpeg on Services page */
+body.page-services .page-hero {
+  min-height: clamp(580px, 72vh, 680px) !important;
+}
+
+body.page-services .page-hero .hero-media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: 74% 5% !important;
+  opacity: 1 !important;
+  filter: contrast(1.05) brightness(1.02) !important;
+  display: block !important;
+}
+
+body.page-services .page-hero .hero-media::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: 
+    linear-gradient(90deg, 
+      rgba(5, 7, 12, 0.94) 0%, 
+      rgba(5, 7, 12, 0.82) 36%, 
+      rgba(5, 7, 12, 0.28) 65%, 
+      rgba(5, 7, 12, 0.35) 100%
+    ),
+    linear-gradient(180deg, 
+      rgba(5, 7, 12, 0.60) 0%, 
+      rgba(5, 7, 12, 0.08) 35%, 
+      rgba(5, 7, 12, 0.75) 100%
+    ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+@media (max-width: 768px) {
+  body.page-services .page-hero {
+    min-height: 560px !important;
+  }
+  body.page-services .page-hero .hero-media {
+    top: var(--header-h) !important;
+    height: calc(100% - var(--header-h)) !important;
+  }
+  body.page-services .page-hero .hero-media img {
+    object-position: 70% 0% !important;
+  }
+  body.page-services .page-hero .hero-media::after {
+    background: 
+      linear-gradient(180deg, 
+        rgba(5, 7, 12, 0.88) 0%, 
+        rgba(5, 7, 12, 0.45) 42%, 
+        rgba(5, 7, 12, 0.88) 100%
+      ) !important;
+  }
 }
 
 .page-hero .hero-content,
