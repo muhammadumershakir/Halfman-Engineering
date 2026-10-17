@@ -75,18 +75,16 @@
     window.addEventListener('resize', onWindowResize);
     requestAnimationFrame(animate);
 
-    // Defer heavy 11.5MB CAD parsing until initial DOM paint & user interaction are ready
-    // Allows homepage to load and become interactive in <150ms with ZERO lag
     function scheduleCADBuild() {
       loadCADGeometry(function () {
         buildCADModel();
       });
     }
 
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(scheduleCADBuild, { timeout: 800 });
+    if (window.HALFMAN_CAD_PARTS) {
+      buildCADModel();
     } else {
-      setTimeout(scheduleCADBuild, 120);
+      scheduleCADBuild();
     }
   }
 
@@ -421,6 +419,8 @@
 
     // Initial State: Open Top Dead Center (TDC)
     setDieStroke(STROKE_OPEN_Y);
+    var loader = document.getElementById('dieLoader');
+    if (loader) loader.classList.add('loaded');
     console.log('Y-Axis CAD Die Assembly loaded successfully with clean multi-material contrast.');
   }
 
