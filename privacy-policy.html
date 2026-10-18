@@ -38,15 +38,19 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "AutoPartsManufacturer",
+      "@type": ["Organization", "LocalBusiness", "AutoPartsManufacturer"],
+      "@id": "https://halfman-engineering.com/#organization",
       "name": "Halfman Engineering",
       "url": "https://halfman-engineering.com/",
       "logo": "https://halfman-engineering.com/images/halfman%20logo.png",
+      "telephone": "+92-301-8286559",
+      "email": "Info@halfman-engineering.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Plot No. C-I/60-62, Sector 12-C, North Karachi Industrial Area",
         "addressLocality": "Karachi",
         "addressRegion": "Sindh",
+        "postalCode": "75850",
         "addressCountry": "PK"
       }
     },
@@ -76,12 +80,12 @@
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href="index.html" class="brand" aria-label="Halfman Engineering — Home">
+    <a href="/" class="brand" aria-label="Halfman Engineering — Home">
       <img loading="eager" decoding="async" src="images/halfman logo.png" alt="Halfman Engineering Logo" class="brand-mark">
       <span class="brand-text"><span class="name">HALFMAN</span><span class="tag">Engineering</span></span>
     </a>
     <nav class="nav-primary" aria-label="Primary">
-      <a href="index.html">Home</a>
+      <a href="/">Home</a>
       <a href="about.html">About</a>
       <div class="nav-dropdown">
         <a href="services.html" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></a>
@@ -107,7 +111,7 @@
   <button class="nav-panel-close" aria-label="Close menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><path d="M6 6l12 12M18 6L6 18"/></svg>
   </button>
-  <a href="index.html">Home</a>
+  <a href="/">Home</a>
   <a href="about.html">About</a>
   <div class="nav-dropdown">
     <a href="services.html" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M6 9l6 6 6-6"/></svg></a>
@@ -120,7 +124,7 @@
   <a href="awards.html">Awards</a>
   <a href="contact.html">Contact</a>
   <a href="contact.html" class="btn btn-primary btn-block">Request a Quote</a>
-  <div class="nav-panel-meta">Plot No. C-I/60-62, Sector 12-C, North Karachi Industrial Area, Karachi, Pakistan<br>Automotive Parts Manufacturer & Engineering Fabrication</div>
+  <div class="nav-panel-meta">Plot No. C-I/60-62, Sector 12-C, North Karachi Industrial Area, Karachi, Pakistan<br>Automotive Parts Manufacturer &amp; Engineering Fabrication</div>
 </nav>
 
 <main id="main">
@@ -136,7 +140,7 @@
     <span class="hero-corner br" aria-hidden="true"></span>
     <div class="container hero-content">
       <nav class="hm-breadcrumbs" aria-label="Breadcrumbs">
-        <span class="hm-breadcrumb-item"><a href="index.html">Home</a></span>
+        <span class="hm-breadcrumb-item"><a href="/">Home</a></span>
         <span class="hm-breadcrumb-sep">/</span>
         <span class="hm-breadcrumb-item active" aria-current="page">Privacy Policy</span>
       </nav>
@@ -300,11 +304,11 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="brand" aria-label="Halfman Engineering — Home">
+        <a href="/" class="brand" aria-label="Halfman Engineering — Home">
           <img loading="eager" decoding="async" src="images/halfman logo.png" alt="Halfman Engineering Logo" class="brand-mark">
           <span class="brand-text"><span class="name">HALFMAN</span><span class="tag">Engineering</span></span>
         </a>
-        <p>Automotive Parts Manufacturing & Fabrication</p>
+        <p>Automotive Parts Manufacturing &amp; Fabrication</p>
         <div class="social-row">
           <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="Halfman Engineering on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.55 4.78 5.86V21h-4v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.8H9z"/></svg></a>
           <a href="https://www.facebook.com/share/19BxgiYAWf/" target="_blank" rel="noopener" aria-label="Halfman Engineering on Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.5-3H13.5V8.4c0-.87.24-1.46 1.5-1.46H16.6V4.3C16.3 4.26 15.3 4.17 14.1 4.17c-2.4 0-4 1.47-4 4.17v2.33H7.6v3h2.5V21z"/></svg></a>
@@ -314,7 +318,7 @@
       <div class="footer-col">
         <h5>Quick Links</h5>
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="engineering-services.html">Engineering Services</a></li>
@@ -327,12 +331,12 @@
       <div class="footer-col">
         <h5>Services</h5>
         <ul>
-          <li><a href="services.html#cnc-manufacturing">CNC Manufacturing</a></li>
-          <li><a href="services.html#press-operations">Metal Stamping & Press Operations</a></li>
-          <li><a href="services.html#die-designing">Die Designing & Tooling</a></li>
+          <li><a href="services.html#cnc-machining">CNC Manufacturing</a></li>
+          <li><a href="services.html#press-operations">Metal Stamping &amp; Press Operations</a></li>
+          <li><a href="services.html#die-designing">Die Designing &amp; Tooling</a></li>
           <li><a href="services.html#spot-welding">Spot Welding</a></li>
-          <li><a href="services.html#jigs-fixtures">Jigs & Fixtures Development</a></li>
-          <li><a href="services.html#quality-assurance">Quality Assurance & Inspection</a></li>
+          <li><a href="engineering-services.html#welding-jigs">Jigs &amp; Fixtures Development</a></li>
+          <li><a href="services.html#quality-department">Quality Assurance &amp; Inspection</a></li>
         </ul>
       </div>
       <div class="footer-col">
