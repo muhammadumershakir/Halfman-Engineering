@@ -182,26 +182,36 @@
     return new ArrayType(bytes.buffer);
   }
 
-  function createCADGeometry(data) {
-    if (!data || !data.positions) return new THREE.BufferGeometry();
+  function unpackBuffers(data) {
+    if (!data) return null;
+    if (window.HALFMAN_UNPACK_CAD_PART && data.deflated) {
+      var u = window.HALFMAN_UNPACK_CAD_PART(data);
+      return { positions: u.positionsFloat32, indices: u.indicesTyped };
+    }
+    if (!data.positions) return null;
     var positions = decodeBase64ToArray(data.positions, Float32Array);
     var indices = data.indexType === 'uint32'
       ? decodeBase64ToArray(data.indices, Uint32Array)
       : decodeBase64ToArray(data.indices, Uint16Array);
+    return { positions: positions, indices: indices };
+  }
+
+  function createCADGeometry(data) {
+    var buf = unpackBuffers(data);
+    if (!buf) return new THREE.BufferGeometry();
 
     var geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setIndex(new THREE.BufferAttribute(indices, 1));
+    geo.setAttribute('position', new THREE.BufferAttribute(buf.positions, 3));
+    geo.setIndex(new THREE.BufferAttribute(buf.indices, 1));
     geo.computeVertexNormals();
     return geo;
   }
 
   function createMirroredRightPin(p) {
-    if (!p || !p.positions) return null;
-    var positions = decodeBase64ToArray(p.positions, Float32Array);
-    var indices = p.indexType === 'uint32'
-      ? decodeBase64ToArray(p.indices, Uint32Array)
-      : decodeBase64ToArray(p.indices, Uint16Array);
+    var buf = unpackBuffers(p);
+    if (!buf) return null;
+    var positions = buf.positions;
+    var indices = buf.indices;
 
     var used = new Map();
     var newPos = [];
@@ -244,10 +254,11 @@
       if (callback) callback();
       return;
     }
-    if (isScriptLoading) {
+    var existingScript = document.querySelector('script[src*="op20_die_geometry.js"]');
+    if (existingScript || isScriptLoading) {
       setTimeout(function () {
         loadCADGeometry(callback);
-      }, 50);
+      }, 30);
       return;
     }
     isScriptLoading = true;
@@ -346,14 +357,6 @@
     lowerGroup.add(lowerPlateMesh);
     meshes.lowerPlate = lowerPlateMesh;
 
-    // 2. Lower Cavity Profile (SAME COLOR AS UPPER PUNCH: Mirror D2 Steel)
-    var cavityGeo = createCADGeometry(cadParts.cavity_profile);
-    var cavityMesh = new THREE.Mesh(cavityGeo, matProfiles);
-    cavityMesh.castShadow = true;
-    cavityMesh.receiveShadow = true;
-    lowerGroup.add(cavityMesh);
-    meshes.cavity = cavityMesh;
-
     // 3. Guide Pillars: Hard Chrome
     var pillarsGeo = createCADGeometry(cadParts.guide_pillars);
     var pillarsMesh = new THREE.Mesh(pillarsGeo, matPillars);
@@ -379,22 +382,6 @@
     upperPlateMesh.castShadow = true;
     upperGroup.add(upperPlateMesh);
     meshes.upperPlate = upperPlateMesh;
-
-    // 6. Upper Punch Profile (SAME COLOR AS LOWER CAVITY: Mirror D2 Steel)
-    var punchGeo = createCADGeometry(cadParts.punch_profile);
-    var punchMesh = new THREE.Mesh(punchGeo, matProfiles);
-    punchMesh.castShadow = true;
-
-    // Symmetrical Right Pin (Matching the lower gray pins and left upper pin)
-    var rightPinGeo = createMirroredRightPin(cadParts.punch_profile);
-    if (rightPinGeo) {
-      var rightPinMesh = new THREE.Mesh(rightPinGeo, matProfiles);
-      rightPinMesh.castShadow = true;
-      punchMesh.add(rightPinMesh);
-    }
-
-    upperGroup.add(punchMesh);
-    meshes.punch = punchMesh;
 
     // 7. Upper Hardware: Black-Oxide Fasteners
     var upperHwGeo = createCADGeometry(cadParts.hardware_upper);
@@ -422,7 +409,39 @@
     setDieStroke(STROKE_OPEN_Y);
     var loader = document.getElementById('dieLoader');
     if (loader) loader.classList.add('loaded');
-    console.log('Y-Axis CAD Die Assembly loaded successfully with clean multi-material contrast.');
+
+    // Stream high-density D2 Steel Punch & Cavity profiles across next animation frames so main thread never blocks
+    requestAnimationFrame(function () {
+      // 6. Upper Punch Profile (SAME COLOR AS LOWER CAVITY: Mirror D2 Steel)
+      var punchGeo = createCADGeometry(cadParts.punch_profile);
+      var punchMesh = new THREE.Mesh(punchGeo, matProfiles);
+      punchMesh.castShadow = true;
+
+      // Symmetrical Right Pin (Matching the lower gray pins and left upper pin)
+      var rightPinGeo = createMirroredRightPin(cadParts.punch_profile);
+      if (rightPinGeo) {
+        var rightPinMesh = new THREE.Mesh(rightPinGeo, matProfiles);
+        rightPinMesh.castShadow = true;
+        punchMesh.add(rightPinMesh);
+      }
+
+      upperGroup.add(punchMesh);
+      meshes.punch = punchMesh;
+      if (explodeProgress > 0) applyPartExplosion(explodeProgress);
+
+      requestAnimationFrame(function () {
+        // 2. Lower Cavity Profile (SAME COLOR AS UPPER PUNCH: Mirror D2 Steel)
+        var cavityGeo = createCADGeometry(cadParts.cavity_profile);
+        var cavityMesh = new THREE.Mesh(cavityGeo, matProfiles);
+        cavityMesh.castShadow = true;
+        cavityMesh.receiveShadow = true;
+        lowerGroup.add(cavityMesh);
+        meshes.cavity = cavityMesh;
+        if (explodeProgress > 0) applyPartExplosion(explodeProgress);
+
+        console.log('Y-Axis CAD Die Assembly loaded successfully with clean multi-material contrast.');
+      });
+    });
   }
 
   /**

@@ -30,6 +30,8 @@
 </noscript>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/chatbot.css">
+<link rel="preload" href="images/halfman logo.png" as="image" fetchpriority="high">
+<link rel="preload" href="js/vendor/three.min.js" as="script">
 <link rel="preload" href="js/models/op20_die_geometry.js" as="script">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="images/halfman logo.png">
@@ -1066,12 +1068,12 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
 </button>
 
-<script src="js/vendor/three.min.js" defer></script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
-<script src="js/models/op20_die_geometry.js" defer></script>
-<script src="js/hero-die-3d.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/vendor/three.min.js" defer></script>
+<script src="js/models/op20_die_geometry.js" async></script>
+<script src="js/hero-die-3d.js" defer></script>
 <script src="js/chatbot.js" defer></script>
 </body>
 </html>
