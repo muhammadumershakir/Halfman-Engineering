@@ -1348,9 +1348,63 @@
     });
   }
 
+  function trackConversionEvent(eventName, params) {
+    try {
+      var consentRaw = localStorage.getItem('hm_cookie_consent');
+      var consent = consentRaw ? JSON.parse(consentRaw) : null;
+      var payload = Object.assign({
+        event: eventName,
+        page_path: window.location.pathname,
+        page_title: document.title,
+        timestamp: new Date().toISOString()
+      }, params || {});
+
+      window.dispatchEvent(new CustomEvent('halfman:conversion', { detail: payload }));
+
+      if (!consent || consent.analytics !== false) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(payload);
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', eventName, params || {});
+        }
+      }
+    } catch (e) {
+      // Non-blocking conversion hook
+    }
+  }
+
+  function initConversionTracking() {
+    document.addEventListener('click', function (e) {
+      var link = e.target && e.target.closest ? e.target.closest('a, button') : null;
+      if (!link) return;
+      var href = (link.getAttribute('href') || '').trim();
+      var ctaAttr = link.getAttribute('data-track-cta') || '';
+
+      if (href.indexOf('wa.me/') !== -1 || href.indexOf('whatsapp.com') !== -1) {
+        trackConversionEvent('whatsapp_enquiry_click', { link_url: href, cta_label: ctaAttr || (link.textContent || '').trim() });
+      } else if (href.indexOf('mailto:') === 0) {
+        trackConversionEvent('email_enquiry_click', { email: href.replace('mailto:', ''), cta_label: (link.textContent || '').trim() });
+      } else if (href.indexOf('tel:') === 0) {
+        trackConversionEvent('phone_enquiry_click', { phone: href.replace('tel:', ''), cta_label: (link.textContent || '').trim() });
+      } else if (href.indexOf('contact.html') !== -1 || ctaAttr) {
+        trackConversionEvent('rfq_cta_click', { destination: href || 'form', cta_label: ctaAttr || (link.textContent || '').trim() });
+      }
+    }, { passive: true });
+
+    document.querySelectorAll('form[data-contact-form]').forEach(function (form) {
+      form.addEventListener('submit', function () {
+        trackConversionEvent('rfq_form_submit_attempt', { form_action: form.getAttribute('action') || '' });
+      });
+    });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCookieConsent);
+    document.addEventListener('DOMContentLoaded', function () {
+      initCookieConsent();
+      initConversionTracking();
+    });
   } else {
     initCookieConsent();
+    initConversionTracking();
   }
 })();
