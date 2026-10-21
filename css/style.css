@@ -3520,6 +3520,11 @@ body.page-services .page-hero .hero-media img {
   display: block !important;
 }
 
+/* Dedicated hero presentation for CNC-2-clean.jpg on Engineering Services page */
+body.page-engineering-services .page-hero .hero-media img {
+  object-position: center 43% !important;
+}
+
 body.page-services .page-hero .hero-media::after {
   content: '' !important;
   position: absolute !important;
@@ -3550,6 +3555,9 @@ body.page-services .page-hero .hero-media::after {
   }
   body.page-services .page-hero .hero-media img {
     object-position: 70% 0% !important;
+  }
+  body.page-engineering-services .page-hero .hero-media img {
+    object-position: center 50% !important;
   }
   body.page-services .page-hero .hero-media::after {
     background: 
